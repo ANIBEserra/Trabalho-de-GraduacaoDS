@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Geolocalização de Bairros em Santana de Parnaíba</title>
+
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script type="text/javascript" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script> -->
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+    <!-- LayerTree Control-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.treelayers/dist/leaflet-treelayers.css" />
+    <script src="https://unpkg.com/leaflet.treelayers/dist/leaflet-treelayers.js"></script>
+
+    <!-- GEOCODER-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    
+    <!-- bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
+    <style>
+        #mapid{
+            height: 600px;
+            width: 98%;
+            margin-left: 30px;
+            margin-right: 0;
+            z-index: 0; /* Z-index menor para garantir que fique atrás */
+        }
+
+        .black-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 85px; /* Altura da faixa preta */
+            background-color: black;
+            z-index: 1; /* Certifique-se de que a faixa preta está acima de outros elementos */
+        }
+
+        /*centalize h1*/
+        h1 {
+            text-align: center;
+            margin: 10px auto 20px auto; /* Reduzida a margem superior para posicionar o h1 mais próximo da faixa preta */
+            width: 50%; /* Largura do h1 ajustada */
+            background-color: rgba(255, 255, 255, 0.603); /* Branco opaco com 80% de opacidade */
+            padding: 10px; /* Adicionado padding para melhor aparência */
+            border-radius: 10px; /* Borda arredondada */
+            z-index: 2; /* Certifique-se de que o h1 esteja acima da faixa preta */
+            position: relative; /* Posição relativa para garantir a ordem de empilhamento correta */
+        }
+
+        /* Style the container to position buttons */
+        .lateral-buttons-overlayer {
+            position: fixed; /* Fixed positioning to keep it on the left */
+            left: 0; /* Align to the left edge of the viewport */
+            top: 20%; /* Adjust as needed */
+            transform: translateY(-50%, -50%); /* Center vertically */
+            width: 200px;
+            height: 200px;
+            z-index: 1; /* Garante que este elemento fique sobreposto */
+        }
+
+        /* Style the buttons */
+        .lateral-buttons-overlayer button {
+            display: block; /* Make buttons block elements */
+            margin-left: 5px;
+            margin-bottom: 30px; /* Aumentar a distância entre os botões */
+            background-color: rgba(255, 255, 255, 0.603); /* Branco opaco com 80% de opacidade */
+            padding: 5px; /* Add some padding for better appearance */
+            border-radius: 5px; /* Add rounded corners */  
+        }
+
+        /*style fullscrren*/
+        i {
+            position: fixed;
+            top: 50px; /* Ajuste conforme necessário */
+            right: 27px; /* Posiciona o ícone à direita */
+            cursor: pointer;
+            z-index: 9999; /* Valor alto para garantir que o ícone se sobreponha a outros elementos */
+            color: #ffffff;
+            font-size: 20px; /* Tamanho do ícone ajustado */
+        }
+
+        /*zoom buttons*/
+        .custom-zoom-button {
+            display: none; /* Oculta os botões de zoom */
+        }
+
+        /*style coordenate*/
+        .coordinate {
+            position: fixed;
+            bottom: 10px; /* Distância em relação à parte inferior */
+            right: 10px; /* Distância em relação à direita */
+            border: 2px solid #000;
+            padding: 3px 10px; /* Preenchimento superior e inferior de 3px e preenchimento esquerdo e direito de 10px */
+            margin-bottom: 20px; /* Pode ser ajustado conforme necessário */
+            background-color: rgba(255, 255, 255, 0.8); /* Branco opaco com 80% de opacidade */
+            border-radius: 10px;
+            text-align: end;
+            font-size: 12px;
+            z-index: 10001; /* Valor alto para garantir que este elemento fique sobreposto ao mapa */
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+    <section class="buttons">
+
+    <!-- Sessão de criação dos botões que filtrarão mapa -->
+        <div class="btn">
+            <i class="bi bi-arrows-fullscreen fullscreen-icon" onclick="fullScreenview()" ></i> <!-- fullscreen button-->
+
+            <div class="lateral-buttons-overlayer">
+                <button>Button 1</button>
+                <button>Button 2</button>
+                <button>Button 3</button>
+            </div> 
+        </div> 
+
+    </section>
+    <div class="black-bar"></div>
+    <h1>Geo Santana de Parnaíba </h1>
+
+    <div id="mapid"></div>        
+
+    <div class="coordinate"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- coordenadas sob o mouse -->
+
+        <script src="./dataqgiz/areaderisco.js"></script>
+        <script src="./dataqgiz/limiteSantana.js"></script>
+        <script src="./dataqgiz/massaDaguaStn.js"></script>
+        <script src="./dataqgiz/cursoDaguaStn.js"></script>
+        <script src="./dataqgiz/nascentesDagua.js"></script>
+        <script src="./dataqgiz/app5omNascentes.js"></script>
+        <script src="./dataqgiz/app15mCursoDagua.js"></script>
+        <script src="./dataqgiz/curvasDeNivelStn.js"></script>
+        <script src="./dataqgiz/municipiosVizinhosStn.js"></script>
+
+    <script>
+        
+        var map = L.map('mapid', {
+            minZoom: 10,
+            maxZoom: 18,
+            center: [-23.4431, -46.9207],
+            zoom: 11,
+    });
+
+        // Adiciona um controle de zoom personalizado com ícones do Bootstrap
+        var customZoomControl = L.control.zoom({
+        position: 'topright'
+    });
+        
+        //OSM layer
+        var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    });
+
+        var Thunderforest_OpenCycleMap = L.tileLayer('https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey={apikey}', {
+        attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        apikey: 'd25bc170e1b54aaf8174e8901450c4f5',
+        maxZoom: 22
+    }).addTo(map);
+
+
+        //tilelayers google
+        googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3'],
+        layers: [],
+    });
+
+        googleSat = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    });
+
+        googleHybrid = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    });
+
+        //GEOJSON
+        var limiteStn = L.geoJSON(limiteSantana, {
+            color: '#000000', 
+            weight: 3, 
+            fillOpacity: 0.10,
+            //fillColor: '#FEF2D3',
+
+            
+    }).addTo(map)//.bindTooltip('Santana de Parnaíba', {permanet: true}).openTooltip();
+
+        var zonaderisco = L.geoJSON(areaderisco, {
+            color: '#800000', 
+            weight: 3,
+    })
+
+        var massadaguaStn = L.geoJSON(massadaguajs, {
+            color: '#51EFC0',
+            weight: 3,
+
+    })
+
+        var cursodaguaStn = L.geoJSON(cursoDaguajs)
+
+        var nascentesdaguaStna = L.geoJSON(nascentesDaguajs)
+
+        var app50mNascentesStna = L.geoJSON(app50nascjs)
+
+        var app15mCursodaguaStna = L.geoJSON(app15mCursoDjs)
+
+        var curvasdeNivelStna = L.geoJSON(curvasdeNiveljs)
+
+        var municipiosVizinhosStna = L.geoJSON(municipiosVizinhosjs, {
+                                                color: '#000000', 
+                                                weight: 3, 
+                                                //fillColor: '#FFFEF8', 
+                                                //fillOpacity: 0.7,
+    });
+    
+        //Layer Control
+        var baseLayers = {
+            "Thunderforest_OpenCycleMap": Thunderforest_OpenCycleMap,
+            "Google Maps": googleStreets,
+            "Satellite Streets": googleHybrid,
+            "Satellite": googleSat,
+            "OSM": osm,
+    }
+
+        var overlays = {
+            //"Marker": marker,
+            "Area de risco": zonaderisco,
+            "Limite Municipio": limiteStn,
+            "Massa Dágua Stna": massadaguaStn,
+            "Curso Dágua Stna": cursodaguaStn,
+            "Nascentes Dágua Stna": nascentesdaguaStna,
+            "App 50m Nascentes Stna": app50mNascentesStna,
+            "App 15m Curso Dagua Stna": app15mCursodaguaStna,
+            "Curvas de Nível Stna": curvasdeNivelStna,
+            "Municípios vizinhos": municipiosVizinhosStna,
+    };
+
+        baselayersControl = L.control.layers(baseLayers, overlays, {position: 'topright'}).addTo(map);
+
+        //Scala do mapa
+        var scale = L.control.scale({position: 'bottomright'}).addTo(map);
+
+        //full screen map view
+        var mapId = document.getElementById('mapid')
+        function fullScreenview() {
+            mapId.requestFullscreen();
+    }
+
+        //Transforma coordenadas de decimal para minutos e segundos
+        function decimalParaDMS(decimal) {
+        var graus = Math.floor(decimal);
+        var minutosDecimal = (decimal - graus) * 60;
+        var minutos = Math.floor(minutosDecimal);
+        var segundos = (minutosDecimal - minutos) * 60;
+
+        return {
+            graus: Math.abs(graus),
+            minutos: minutos,
+            segundos: segundos
+            };
+        }
+
+        //Transforma coordenadas de decimal para graus
+        function formatarDMS(coordenada) {
+            var direcao = coordenada >= 0 ? 'N' : 'S';
+            coordenada = Math.abs(coordenada);
+            return coordenada + "°";
+        }
+
+        //localiza coordenadas do mouse
+        var latlngCoor = map.on('mousemove', function(e) {
+            var latitudeDMS = decimalParaDMS(e.latlng.lat);
+            var longitudeDMS = decimalParaDMS(e.latlng.lng);
+            
+            var latitudeFormatada = formatarDMS(latitudeDMS.graus) + " " + latitudeDMS.minutos + "' " + latitudeDMS.segundos.toFixed(2) + "\" N";
+            var longitudeFormatada = formatarDMS(longitudeDMS.graus) + " " + longitudeDMS.minutos + "' " + longitudeDMS.segundos.toFixed(2) + "\" W";
+            
+            $('.coordinate').html(`Lat: ${latitudeFormatada} Lng: ${longitudeFormatada}`);
+        });
+
+        //geocoder bar
+        var geocoder = L.Control.geocoder().addTo(map);
+
+
+    </script>
+
+</body>
+</html>
