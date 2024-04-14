@@ -79,41 +79,29 @@
             background-color: #cc0000; 
         }
 
+        /* Estilos para o controle de busca */
         .leaflet-control-geocoder {
-            position: absolute;
-            top: 10px;
-            left: -100px;
-            right: 100px;
-            transform: translateX(-200px, 200px);
-            width: 44px; /* Ajuste a largura desejada */
-            height: 40px; /* Ajuste a altura desejada */
-            transition: width 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 15px;
-            z-index: 1000; /* Certifique-se de que a barra de pesquisa esteja acima de outras camadas */
-            overflow: hidden; /*Para esconder o conteúdo que ultrapassar os limites */
+            background-color: #fff; /* Cor de fundo */
+            border: 1px solid #ccc; /* Borda */
+            border-radius: 5px; /* Raio da borda */
+            padding: 3px; /* Espaçamento interno */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+            top: -10px;
+            right: 50px;
         }
 
-        /* Ao passar o mouse sobre o botão, expanda a largura */
-        .leaflet-control-geocoder:hover {
-            width: 500px; /* Largura expandida */
-            height: auto; /* Ajuste a altura para 'auto' para expandir conforme necessário */
-            margin-top: 0; /* Remova a margem superior quando expandido */
-            left: -100px;
-            right: 100px;
-            transform: translateX(-200px, 200px);
+        /* Estilos para o botão de busca */
+        .leaflet-control-geocoder a {
+
+            color: #333; /* Cor do texto */
+            text-decoration: none; /* Remove sublinhado do link */
         }
 
-        /* Estilos para o botão de pesquisa expandido */
+        /* CSS para centralizar o botão quando expandido */
         .leaflet-control-geocoder.expanded {
-            width: 500px; /* Ajuste a largura quando expandido */
-            height: auto; /* Ajuste a altura para 'auto' para expandir conforme necessário */
-            margin-top: 0; /* Remova a margem superior quando expandido */
-            left: -100px;
-            right: 100px;
-            transform: translateX(-200px,200px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px; /* Largura expandida */
         }
 
         #info {
@@ -257,17 +245,17 @@
     <section class="buttons">
     <!-- Sessão de criação dos botões que filtrarão mapa -->
         <div class="fullscreen-button">
-            <i class="bi bi-arrows-fullscreen fullscreen-icon" onclick="fullScreenview()" ></i> <!-- fullscreen button-->
+            <i class="bi bi-arrows-fullscreen fullscreen-icon" onclick="fullScreenview()" title="Tela cheia"></i> <!-- fullscreen button-->
         </div>
 
         <div class="print-map">
-            <i class="bi bi-printer" onclick=""></i> 
+            <i class="bi bi-printer" onclick="" title="Imprimir mapa"></i> 
         </div>
 
         <div class="custom-search-control"></div>
 
         <div class="centermap">
-            <i class="bi bi-align-center" id="centerMapButton"></i>
+            <i class="bi bi-align-center" id="centerMapButton" title="Centralizar mapa"></i>
         </div>
 
     </section>
@@ -301,10 +289,16 @@
 
     <script>
         
+        // Define the bounding box para Santana
+        var southWest = L.latLng(-23.464, -46.942),
+        northEast = L.latLng(-23.396, -46.836),
+        bounds = L.latLngBounds(southWest, northEast);
+
         var map = L.map('mapid', {
             minZoom: 12,
-            maxZoom: 18,
+            maxZoom: 20,
             center: [-23.4431, -46.9207],
+            maxBounds: bounds, 
     });
         map.setView([-23.4431, -46.9207], 7); // Define a visualização do mapa com um zoom mais próximo após a inicialização
 
@@ -316,20 +310,25 @@
         ///////////////////////Barra de Pesquisa///////////////////////// 
         var geocoder = L.Control.geocoder({
             //defaultMarkGeocode: false,
-    }).addTo(map);
+            position: 'topright',
+        }).addTo(map);
 
-        // Seleciona o elemento do controle de busca pela classe HTML
-        var searchControl = document.querySelector('.leaflet-control-geocoder');
+        // Espera pelo evento de inicialização do mapa
+        map.whenReady(function() {
 
-        // Define um evento de passagem do mouse para expandir o controle de busca
-        searchControl.addEventListener('mouseenter', function() {
-        this.classList.add('expanded'); // Adiciona a classe 'expanded' para expandir o botão
-    });
+            // Seleciona o elemento do controle de busca pela classe HTML
+            var searchControl = document.querySelector('.leaflet-control-geocoder');
 
-        // Define um evento de retirada do mouse para recolher o controle de busca
-        searchControl.addEventListener('mouseleave', function() {
-        this.classList.remove('expanded'); // Remove a classe 'expanded' para recolher o botão
-    });
+            // Define um evento de passagem do mouse para expandir o controle de busca
+            searchControl.addEventListener('mouseenter', function() {
+                this.classList.add('expanded'); // Adiciona a classe 'expanded' para expandir o botão
+            });
+
+            // Define um evento de retirada do mouse para recolher o controle de busca
+            searchControl.addEventListener('mouseleave', function() {
+                this.classList.remove('expanded'); // Remove a classe 'expanded' para recolher o botão
+            });
+        });
 
         //OSM layer
         var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
