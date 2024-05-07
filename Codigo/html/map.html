@@ -7,6 +7,9 @@
 
     <title>Geolocalização de Bairros em Santana de Parnaíba</title>
 
+    <!-- background css-->
+    <link rel="stylesheet" href="/css/style.css">
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -29,214 +32,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 
     <style>
-        #mapid{
-            height: 600px;
-            width: 100%;
-            margin: 0;
-            margin-left: 0;
-            margin-right: 0;
-            z-index: 0; /* Z-index menor para garantir que fique atrás */
-            border-radius: 0;
-            cursor: pointer;
-        }
-
-        /* Se necessário, para garantir que não haja margens ou preenchimentos adicionais: */
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-             /* Para garantir que não haja barras de rolagem */
-        }
-
-        h1 {
-            text-align: center;
-            font-family: Arial;
-            width: 100%; /* Largura do h1 ajustada */
-            padding: 10px; /* Adicionado padding para melhor aparência */
-            z-index: 2; /* Certifique-se de que o h1 esteja acima da faixa preta */
-            position: relative; /* Posição relativa para garantir a ordem de empilhamento correta */
-        }
-
-        .custom-layer-control {
-            background-color: white;
-            border: none; /* Remove a borda */
-            padding: 50px; /* Remove qualquer preenchimento interno */
-            z-index: 1000;
-
-        }
-
-        /* Estilo para o botão personalizado */
-        .custom-remove-button {
-            background-color: #ff0000; 
-            color: #ffffff; /* Cor do texto */
-            border: none; /* Remove a borda */
-            padding: 5px 10px; /* Espaçamento interno */
-            border-radius: 5px; /* Borda arredondada */
-        }
-        /* Personalizar quando hover */
-        .custom-remove-button:hover {
-            background-color: #cc0000; 
-        }
-
-        /* Estilos para o controle de busca */
-        .leaflet-control-geocoder {
-            background-color: #fff; /* Cor de fundo */
-            border: 1px solid #ccc; /* Borda */
-            border-radius: 5px; /* Raio da borda */
-            padding: 3px; /* Espaçamento interno */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
-            top: -10px;
-            right: 50px;
-        }
-
-        /* Estilos para o botão de busca */
-        .leaflet-control-geocoder a {
-
-            color: #333; /* Cor do texto */
-            text-decoration: none; /* Remove sublinhado do link */
-        }
-
-        /* CSS para centralizar o botão quando expandido */
-        .leaflet-control-geocoder.expanded {
-            left: 50%;
-            transform: translateX(-50%);
-            width: 300px; /* Largura expandida */
-        }
-
-        #info {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #FFFFFF;
-            font-family: Arial;
-            font-size: 15px;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            z-index: 9999;
-            display: none;
-        }
-        /*Geojson criado*/
-        #geojson-coordinates {
-            margin-left: 10px;
-            position: relative;
-        }
         
-        #copiageojson {
-            font-family: Arial;
-            margin-top: 10px;
-            margin-left: 10px;
-            font-size: 13px;
-            color: #000000;
-            background-color: #ffffff;
-            border-radius: 100px;
-            border: 2px solid #000;
-            display: none;
-            cursor: pointer;
-        }
-        #copiageojson:hover {
-            background-color: #adadad;
-        }
-
-        .custom-draw-control {
-            z-index: 99;
-        }
-
-        /*Botão de fullscrren*/
-        .fullscreen-button i {
-            position: fixed;
-            top: 58px; /* Ajuste conforme necessário */
-            right: 10px; /* Posiciona o ícone à direita */
-            cursor: pointer;
-            z-index: 9999; /* Valor alto para garantir que o ícone se sobreponha a outros elementos */
-            color: #ffffff;
-            background-color: #4CAF50;
-            border: 1px solid #c6c7c6;
-            border-radius: 15px;
-            font-size: 15px; /* Tamanho do ícone ajustado */
-            padding: 10px 15px;
-        }
-        /* Personalizar hover */
-        .fullscreen-button i:hover {
-            background-color: #247d27; 
-        }
-
-        /*print button*/
-        .print-map i {
-            position: fixed;
-            top: 18px; /* Distância do topo da janela */
-            right: 10px; /* Distância da esquerda da janela */
-            z-index: 9999; /* Valor alto para garantir que sobreponha outros elementos */
-            background-color: #4CAF50; /* Cor de fundo do botão */
-            color: white; /* Cor do texto do botão */
-            padding: 10px 15px; /* Espaçamento interno do botão */
-            font-size: 15px; /* Tamanho da fonte do texto do botão */
-            border: 1px solid #c6c7c6;
-            border-radius: 15px; /* Arredondamento dos cantos do botão */
-            cursor: pointer; /* Cursor ao passar o mouse sobre o botão */      
-        }
-        /* Personalizar quando hover */
-        .print-map :hover {
-            background-color: #247d27; 
-        }
-
-        #centerMapButton {
-            position: fixed;
-            top: 98px; /* Distância do topo da janela */
-            right: 10px; /* Distância da esquerda da janela */
-            z-index: 9999; /* Valor alto para garantir que sobreponha outros elementos */
-            background-color: #4CAF50; /* Cor de fundo do botão */
-            color: white; /* Cor do texto do botão */
-            padding: 10px 15px; /* Espaçamento interno do botão */
-            font-size: 15px; /* Tamanho da fonte do texto do botão */
-            border: 1px solid #c6c7c6;
-            border-radius: 15px; /* Arredondamento dos cantos do botão */
-            cursor: pointer; /* Cursor ao passar o mouse sobre o botão */      
-        }
-        /* Personalizar quando hover */
-        #centerMapButton:hover {
-            background-color: #247d27; 
-        }
-
-        /*Coordenadas Longitude e latitude mouse*/
-        .coordinate {
-            position: absolute;
-            bottom: 10px; /* Distância em relação à parte inferior */
-            left: 50%; /* Distância em relação à direita */
-            transform: translateX(-50%);
-            border: 2px solid #000;
-            padding: 3px 10px; /* Preenchimento superior e inferior de 3px e preenchimento esquerdo e direito de 10px */
-            margin-bottom: 20px; /* Pode ser ajustado conforme necessário */
-            background-color: rgba(255, 255, 255, 0.8); /* Branco opaco com 80% de opacidade */
-            border-radius: 10px;
-            text-align: end;
-            font-size: 12px;
-            font-family: Arial;
-            z-index: 9999; /* Valor alto para garantir que este elemento fique sobreposto ao mapa */
-        }
-
-        /* Personalize a aparência da escala do mapa */
-        .leaflet-control-scale {
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 2px solid #000000;
-            border-radius: 10px;
-            padding: 5px 10px;
-            font-family: Arial;
-            font-size: 12px;
-            line-height: 5;
-        }
-
-        .leaflet-control-scale-line {
-            border-top: 5px solid #000;
-            width: 100%;
-        }
-
-        .leaflet-control-scale-label {
-            color: #ffffff;
-        }
-
     </style>
 
 </head>
@@ -260,7 +56,10 @@
 
     </section>
 
-    <h1>Portal de Geolocalização Santana de Parnaíba</h1>
+    <div class="cabecalho">
+        <img src="../img/brasao_santana.png" alt="Descrição da imagem">
+
+    <h1> Portal Geo Parnaíba </h1>
 
     <div id="mapid"></div>
 
