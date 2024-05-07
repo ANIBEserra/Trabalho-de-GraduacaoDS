@@ -1,0 +1,232 @@
+
+#mapid{
+    height: 600px;
+    width: 95%;
+    margin: 10px;
+    margin-left: 10px;
+    margin-right: 0;
+    z-index: 0; /* Z-index menor para garantir que fique atrás */
+    border-radius: 0;
+    cursor: pointer;
+    margin-top: -20px;
+}
+
+/* Se necessário, para garantir que não haja margens ou preenchimentos adicionais: */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+     /* Para garantir que não haja barras de rolagem */
+}
+
+.cabecalho {
+    position: relative;
+}
+
+.cabecalho img {
+    position: absolute;
+    top: -15px;
+    margin-left: 12px;
+    width: 100px; 
+    height: auto; 
+    z-index: 999999;
+}
+
+h1 {
+    text-align: start;
+    font-family: Arial;
+    width: 87.8%; /* Largura do h1 ajustada */
+    height: 35px;
+    padding: 10px; /* Adicionado padding para melhor aparência */
+    z-index: 2; /* Certifique-se de que o h1 esteja acima da faixa preta */
+    position: relative; /* Posição relativa para garantir a ordem de empilhamento correta */
+    color: #ffffff;
+    background-color: rgb(3, 56, 135);
+    margin-left: 100px;
+    margin-top: center;
+}
+
+.custom-layer-control {
+    background-color: white;
+    border: none; /* Remove a borda */
+    padding: 50px; /* Remove qualquer preenchimento interno */
+    z-index: 1000;
+
+}
+
+/* Estilo para o botão personalizado */
+.custom-remove-button {
+    background-color: #ff0000; 
+    color: #ffffff; /* Cor do texto */
+    border: none; /* Remove a borda */
+    padding: 5px 10px; /* Espaçamento interno */
+    border-radius: 5px; /* Borda arredondada */
+}
+/* Personalizar quando hover */
+.custom-remove-button:hover {
+    background-color: #cc0000; 
+}
+
+/* Estilos para o controle de busca */
+.leaflet-control-geocoder {
+    background-color: #fff; /* Cor de fundo */
+    border: 1px solid #ccc; /* Borda */
+    border-radius: 5px; /* Raio da borda */
+    padding: 7px; /* Espaçamento interno */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+    top: -1px;
+    right: 0;
+}
+
+/* Estilos para o botão de busca */
+.leaflet-control-geocoder a {
+
+    color: #333; /* Cor do texto */
+    text-decoration: none; /* Remove sublinhado do link */
+}
+
+/* CSS para centralizar o botão quando expandido */
+.leaflet-control-geocoder.expanded {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px; /* Largura expandida */
+}
+
+#info {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #FFFFFF;
+    font-family: Arial;
+    font-size: 15px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    z-index: 9999;
+    display: none;
+}
+/*Geojson criado*/
+#geojson-coordinates {
+    margin-left: 50px;
+    position: relative;
+    background-color: rgba(251, 251, 251, 0.65);
+    border-radius: 10px;
+    fill-opacity: 3;
+    width: 30%;
+}
+
+#copiageojson {
+    font-family: Arial;
+    margin-top: 10px;
+    margin-left: 50px;
+    padding: 5px;
+    font-size: 13px;
+    color: #000000;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    display: none;
+    cursor: pointer;
+}
+#copiageojson:hover {
+    background-color: rgba(220, 233, 251, 0.486);
+}
+
+.custom-draw-control {
+    z-index: 99;
+}
+
+/*Botão de fullscrren*/
+.fullscreen-button i {
+    position: fixed;
+    top: 18px; /* Ajuste conforme necessário */
+    right: 10px; /* Posiciona o ícone à direita */
+    cursor: pointer;
+    z-index: 9999; /* Valor alto para garantir que o ícone se sobreponha a outros elementos */
+    color: #ffffff;
+    background-color: rgb(3, 56, 135);
+    border: 1px solid #c6c7c6;
+    border-radius: 15px;
+    font-size: 15px; /* Tamanho do ícone ajustado */
+    padding: 10px 15px;
+}
+/* Personalizar hover */
+.fullscreen-button i:hover {
+    background-color: rgb(0, 35, 87); 
+}
+
+/*print button*/
+.print-map i {
+    position: fixed;
+    top: 58px; /* Distância do topo da janela */
+    right: 10px; /* Distância da esquerda da janela */
+    z-index: 9999; /* Valor alto para garantir que sobreponha outros elementos */
+    background-color: rgb(3, 56, 135); /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    padding: 10px 15px; /* Espaçamento interno do botão */
+    font-size: 15px; /* Tamanho da fonte do texto do botão */
+    border: 1px solid #c6c7c6;
+    border-radius: 15px; /* Arredondamento dos cantos do botão */
+    cursor: pointer; /* Cursor ao passar o mouse sobre o botão */      
+}
+/* Personalizar quando hover */
+.print-map :hover {
+    background-color: rgb(0, 35, 87); 
+}
+
+#centerMapButton {
+    position: fixed;
+    top: 98px; /* Distância do topo da janela */
+    right: 10px; /* Distância da esquerda da janela */
+    z-index: 9999; /* Valor alto para garantir que sobreponha outros elementos */
+    background-color: rgb(3, 56, 135); /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    padding: 10px 15px; /* Espaçamento interno do botão */
+    font-size: 15px; /* Tamanho da fonte do texto do botão */
+    border: 1px solid #c6c7c6;
+    border-radius: 15px; /* Arredondamento dos cantos do botão */
+    cursor: pointer; /* Cursor ao passar o mouse sobre o botão */      
+}
+/* Personalizar quando hover */
+#centerMapButton:hover {
+    background-color: rgb(0, 35, 87); 
+}
+
+/*Coordenadas Longitude e latitude mouse*/
+.coordinate {
+    position: absolute;
+    bottom: 10px; /* Distância em relação à parte inferior */
+    left: 50%; /* Distância em relação à direita */
+    transform: translateX(-50%);
+    border: 2px solid #000;
+    padding: 3px 10px; /* Preenchimento superior e inferior de 3px e preenchimento esquerdo e direito de 10px */
+    margin-bottom: 20px; /* Pode ser ajustado conforme necessário */
+    background-color: rgba(255, 255, 255, 0.8); /* Branco opaco com 80% de opacidade */
+    border-radius: 10px;
+    text-align: end;
+    font-size: 12px;
+    font-family: Arial;
+    z-index: 9999; /* Valor alto para garantir que este elemento fique sobreposto ao mapa */
+}
+
+/* Personalize a aparência da escala do mapa */
+.leaflet-control-scale {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 2px solid #000000;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-family: Arial;
+    font-size: 12px;
+    line-height: 5;
+}
+
+.leaflet-control-scale-line {
+    border-top: 5px solid #000;
+    width: 100%;
+}
+
+.leaflet-control-scale-label {
+    color: #ffffff;
+}
