@@ -274,7 +274,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- coordenadas sob o mouse -->
 
     <!-- Camadas-->
-    <script src="./dataqgiz/areaderisco.js"></script>
     <script src="./dataqgiz/limiteSantana.js"></script>
     <script src="./dataqgiz/massaDaguaStn.js"></script>
     <script src="./dataqgiz/cursoDaguaStn.js"></script>
@@ -286,14 +285,47 @@
     <script src="./dataqgiz/InundacaoRiscoAlto.js"></script>
     <script src="./dataqgiz/InundacaoRiscoModerado.js"></script>
     <script src="./dataqgiz/InundacaoRiscoBaixo.js"></script>
-
+    <script src="./dataqgiz/limitesmapaSTN.js"></script>
+    <script src="./dataqgiz/AreaRiscoEscorregamento.js"></script>
+    <script src="./dataqgiz/AreaRiscoInundacao.js"></script>
+    <script src="./dataqgiz/AreaRiscoSolapamento.js"></script>
     <script>
         
-        // Define the bounding box para Santana
-        var southWest = L.latLng(-23.464, -46.942),
-        northEast = L.latLng(-23.396, -46.836),
-        bounds = L.latLngBounds(southWest, northEast);
+        // Carregue o arquivo GeoJSON
+        var geojson = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                [
+                    [-47.145081, -23.523739],
+                    [-47.145081, -23.337882],
+                    [-46.624947, -23.337882],
+                    [-46.624947, -23.523739],
+                    [-47.145081, -23.523739]
+                ]
+                ]
+            }
+            }
+        ]
+        };
 
+        // Extrair as coordenadas do polígono
+        var coordinates = geojson.features[0].geometry.coordinates[0];
+
+        // Converter as coordenadas em objetos LatLng
+        var latLngs = coordinates.map(function(coord) {
+        return L.latLng(coord[1], coord[0]);
+        });
+
+        // Criar um objeto L.latLngBounds com base nas coordenadas
+        var bounds = L.latLngBounds(latLngs);
+
+        //cria mapa
         var map = L.map('mapid', {
             minZoom: 12,
             maxZoom: 20,
@@ -305,12 +337,13 @@
         L.control.zoom({
             position: 'topleft'
     });
-
+        
         //////////////////////////////////////////////////////////////////
         ///////////////////////Barra de Pesquisa///////////////////////// 
+
         var geocoder = L.Control.geocoder({
-            //defaultMarkGeocode: false,
             position: 'topright',
+
         }).addTo(map);
 
         // Espera pelo evento de inicialização do mapa
@@ -362,15 +395,10 @@
         //////////////////////GeoJson das Camadas////////////////////////
 
         var limiteStn = L.geoJSON(limiteSantana, {
-            color: '#000000', 
+            color: '#0D0005', 
             weight: 3, 
             fillOpacity: 0.10,
         }).addTo(map)//.bindTooltip('Santana de Parnaíba', {permanet: true}).openTooltip();
-
-        var zonaderisco = L.geoJSON(areaderisco, {
-            color: '#800000', 
-            weight: 3,
-    })
 
         var massadaguaStn = L.geoJSON(massadaguajs, {
             color: '#10C1FF',
@@ -393,7 +421,7 @@
         })
 
         var curvasdeNivelStna = L.geoJSON(curvasdeNiveljs, {
-            color:'#815400',
+            color:'#FF0000',
             weight: 3,
         })
 
@@ -420,6 +448,24 @@
             fillColor: '#F3FF00', // Define a cor de preenchimento
             fillOpacity: 0.5 // Define a opacidade do preenchimento (opcional)
         });
+        
+        var areaEscorregamento = L.geoJSON(AreaEscorregamento_js, {
+            color: '#786C15',
+            weight: 3,
+            fillOpacity: 0.5,
+        });
+
+        var areaInundacao = L.geoJSON(AreaInundacao_js, {
+            color: '#062E70',
+            weight: 3,
+            fillOpacity: 0.5,
+        });
+
+        var areaSalopamento = L.geoJSON(AreaSolapamento_js, {
+            color: '#FF8D05',
+            weight: 3,
+            fillOpacity: 0.5,
+        })
 
         //Layer Control
         var baseLayers = {
@@ -434,7 +480,6 @@
             //"Marker": marker,
             "Limite Municipio": limiteStn,
             "Municípios vizinhos": municipiosVizinhosStna,
-            "Area de risco": zonaderisco,
             "Massa Dágua Stna": massadaguaStn,
             "Curso Dágua Stna": cursodaguaStn,
             "Nascentes Dágua Stna": nascentesdaguaStna,
@@ -444,6 +489,9 @@
             "Inuncadação Risco Alto": InundacaoRiscoAlto,
             "Inundação Risco Moderado": InundacaoRiscoModerado,
             "Inundação Risco Baixo": InundacaoRiscoBaixo,
+            "Áreas de Escorregamento": areaEscorregamento,
+            "Áreas de Inundação": areaInundacao,
+            "Áreas de Salopamento": areaSalopamento,
 
     };
         //////////////////////////////////////////////////////////////////
