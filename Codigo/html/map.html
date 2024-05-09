@@ -7,7 +7,7 @@
 
     <title>Geolocalização de Bairros em Santana de Parnaíba</title>
 
-    <!-- background css-->
+    <!-- css file -->
     <link rel="stylesheet" href="/css/style.css">
 
     <!-- Leaflet CSS -->
@@ -57,8 +57,11 @@
 
     <div class="cabecalho">
         <img src="../img/brasao_santana.png" alt="Descrição da imagem">
+    </div> 
 
+    <div class="faixa-superior"></div>
     <h1> Portal Geo Parnaíba </h1>
+    <div class="faixa-inferior"></div>
 
     <div id="mapid"></div>
 
@@ -163,7 +166,8 @@
 
         //OSM layer
         var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', 
+        opacity: 0.8,
     }).addTo(map);
 
         var Thunderforest_OpenCycleMap = L.tileLayer('https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey={apikey}', {
@@ -189,6 +193,32 @@
         subdomains:['mt0','mt1','mt2','mt3']
     });
 
+        //////////////////////////////////////////////////////////////////
+        //////////////////////Botão de opacidade/////////////////////////
+
+        // Função para ajustar a opacidade do mapa
+        function ajustarOpacidade(opacidade) {
+            document.querySelector('.leaflet-tile-pane').style.opacity = opacidade;
+        }
+
+        // Criando um controle de opacidade personalizado
+        var controleOpacidade = L.control({position: 'topright'});
+
+        controleOpacidade.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'controle-opacidade');
+            div.innerHTML = '<input type="range" min="0" max="1" step="0.1" value="0.7" class="slider-opacidade" style="width: 150px;">';
+            
+            // Adicionando um evento de mudança ao controle de opacidade
+            L.DomEvent.addListener(div, 'input', function(e) {
+                var novaOpacidade = e.target.value;
+                ajustarOpacidade(novaOpacidade);
+            });
+
+            return div;
+        };
+
+        controleOpacidade.addTo(map);
+        
         //////////////////////////////////////////////////////////////////
         //////////////////////GeoJson das Camadas////////////////////////
 

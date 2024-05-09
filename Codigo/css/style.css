@@ -1,14 +1,14 @@
 
 #mapid{
-    height: 600px;
+    height: 550px;
     width: 95%;
     margin: 10px;
-    margin-left: 10px;
-    margin-right: 0;
+    margin-left: 10;
+    margin-right: 10;
     z-index: 0; /* Z-index menor para garantir que fique atrás */
     border-radius: 0;
     cursor: pointer;
-    margin-top: -20px;
+    margin-top: -15px;
 }
 
 /* Se necessário, para garantir que não haja margens ou preenchimentos adicionais: */
@@ -26,7 +26,7 @@ body, html {
 
 .cabecalho img {
     position: absolute;
-    top: -15px;
+    top: -2px;
     margin-left: 12px;
     width: 100px; 
     height: auto; 
@@ -34,17 +34,38 @@ body, html {
 }
 
 h1 {
-    text-align: start;
+    text-align: center;
     font-family: Arial;
-    width: 87.8%; /* Largura do h1 ajustada */
-    height: 35px;
+    width: 100%; /* Largura do h1 ajustada */
+    height: 60px;
     padding: 10px; /* Adicionado padding para melhor aparência */
     z-index: 2; /* Certifique-se de que o h1 esteja acima da faixa preta */
     position: relative; /* Posição relativa para garantir a ordem de empilhamento correta */
     color: #ffffff;
-    background-color: rgb(3, 56, 135);
-    margin-left: 100px;
-    margin-top: center;
+    background: center/cover;
+    background-color: rgb(2, 33, 79);
+    top: -22px;
+    line-height: 60px;
+    font-size: 40px;
+}
+
+.faixa-superior {
+    width: 100%; /* Define a largura da faixa para ocupar toda a largura da tela */
+    height: 10px; /* Define a altura da faixa */
+    background-color: #FBC409; /* Define a cor de fundo da faixa como amarelo */
+    position: relative; /* Posição relativa para garantir a ordem de empilhamento correta */
+    z-index: 1; /* Certifique-se de que a faixa esteja abaixo do h1 */
+
+}
+
+.faixa-inferior {
+    width: 100%; /* Define a largura da faixa para ocupar toda a largura da tela */
+    height: 10px; /* Define a altura da faixa */
+    background-color: #FBC409; /* Define a cor de fundo da faixa como amarelo */
+    position: relative; /* Posição relativa para garantir a ordem de empilhamento correta */
+    z-index: 1; /* Certifique-se de que a faixa esteja abaixo do h1 */
+    top: -44px;
+
 }
 
 .custom-layer-control {
@@ -141,12 +162,12 @@ h1 {
 /*Botão de fullscrren*/
 .fullscreen-button i {
     position: fixed;
-    top: 18px; /* Ajuste conforme necessário */
+    top: 110px; /* Ajuste conforme necessário */
     right: 10px; /* Posiciona o ícone à direita */
     cursor: pointer;
     z-index: 9999; /* Valor alto para garantir que o ícone se sobreponha a outros elementos */
     color: #ffffff;
-    background-color: rgb(3, 56, 135);
+    background-color: rgb(2, 33, 79);
     border: 1px solid #c6c7c6;
     border-radius: 15px;
     font-size: 15px; /* Tamanho do ícone ajustado */
@@ -154,16 +175,16 @@ h1 {
 }
 /* Personalizar hover */
 .fullscreen-button i:hover {
-    background-color: rgb(0, 35, 87); 
+    background-color: rgb(1, 19, 47); 
 }
 
 /*print button*/
 .print-map i {
     position: fixed;
-    top: 58px; /* Distância do topo da janela */
+    top: 160px; /* Distância do topo da janela */
     right: 10px; /* Distância da esquerda da janela */
     z-index: 9999; /* Valor alto para garantir que sobreponha outros elementos */
-    background-color: rgb(3, 56, 135); /* Cor de fundo do botão */
+    background-color: rgb(2, 33, 79); /* Cor de fundo do botão */
     color: white; /* Cor do texto do botão */
     padding: 10px 15px; /* Espaçamento interno do botão */
     font-size: 15px; /* Tamanho da fonte do texto do botão */
@@ -173,15 +194,15 @@ h1 {
 }
 /* Personalizar quando hover */
 .print-map :hover {
-    background-color: rgb(0, 35, 87); 
+    background-color: rgb(1, 19, 47); 
 }
 
 #centerMapButton {
     position: fixed;
-    top: 98px; /* Distância do topo da janela */
+    top: 210px; /* Distância do topo da janela */
     right: 10px; /* Distância da esquerda da janela */
     z-index: 9999; /* Valor alto para garantir que sobreponha outros elementos */
-    background-color: rgb(3, 56, 135); /* Cor de fundo do botão */
+    background-color: rgb(2, 33, 79); /* Cor de fundo do botão */
     color: white; /* Cor do texto do botão */
     padding: 10px 15px; /* Espaçamento interno do botão */
     font-size: 15px; /* Tamanho da fonte do texto do botão */
@@ -191,7 +212,7 @@ h1 {
 }
 /* Personalizar quando hover */
 #centerMapButton:hover {
-    background-color: rgb(0, 35, 87); 
+    background-color: rgb(1, 19, 47); 
 }
 
 /*Coordenadas Longitude e latitude mouse*/
