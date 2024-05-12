@@ -31,12 +31,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 
+    <!-- bibliotecas para inserção de botões personalizados no mapa-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-easybutton/2.4.0/easy-button.js"></script>
+
     <style>
     </style>
 
 </head>
 
 <body>
+
+
     <section class="buttons">
     <!-- Sessão de criação dos botões que filtrarão mapa -->
         <div class="fullscreen-button">
@@ -63,18 +69,38 @@
     <h1> Portal Geo Parnaíba </h1>
     <div class="faixa-inferior"></div>
 
+    <!--botão html com camadas overlayers-->
+    <div class="dropdown">
+        <button class="dropdown-btn">Download GeoJSON</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="downloadGeoJSON('limiteStn')">Limite Municipio</a>
+            <a href="#" onclick="downloadGeoJSON('municipiosVizinhosStna')">Municípios vizinhos</a>
+            <a href="#" onclick="downloadGeoJSON('massadaguaStn')">Massa Dágua Stna</a>
+            <a href="#" onclick="downloadGeoJSON('cursodaguaStn')">Curso Dágua Stna</a>
+            <a href="#" onclick="downloadGeoJSON('nascentesdaguaStna')">Nascentes Dágua Stna</a>
+            <a href="#" onclick="downloadGeoJSON('app50mNascentesStna')">App 50m Nascentes Stna</a>
+            <a href="#" onclick="downloadGeoJSON('app15mCursodaguaStna')">App 15m Curso Dagua Stna</a>
+            <a href="#" onclick="downloadGeoJSON('curvasdeNivelStna')">Curvas de Nível Stna</a>
+            <a href="#" onclick="downloadGeoJSON('InundacaoRiscoAlto')">Inuncadação Risco Alto</a>
+            <a href="#" onclick="downloadGeoJSON('InundacaoRiscoModerado')">Inundação Risco Moderado</a>
+            <a href="#" onclick="downloadGeoJSON('InundacaoRiscoBaixo')">Inundação Risco Baixo</a>
+            <a href="#" onclick="downloadGeoJSON('areaEscorregamento')">Áreas de Escorregamento</a>
+            <a href="#" onclick="downloadGeoJSON('areaSalopamento')">Áreas de Salopamento</a>
+        </div>
+    </div>
+
     <div id="mapid"></div>
 
     <!-- Div para exibir as coordenadas GeoJSON que serão criadas no leaflet Drawer -->
     <button id="copiageojson">Copiar GeoJson</button>
     <div id="geojson-coordinates"></div>
     <div id="info"></div>
-
+    
     <!-- jQuery Para coordenadas ao passar mouse -->
     <div class="coordinate"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- coordenadas sob o mouse -->
 
-    <!-- Camadas-->
+    <!-- scripts das Camadas-->
     <script src="../dataqgiz/limiteSantana.js"></script>
     <script src="../dataqgiz/massaDaguaStn.js"></script>
     <script src="../dataqgiz/cursoDaguaStn.js"></script>
@@ -88,8 +114,8 @@
     <script src="../dataqgiz/InundacaoRiscoBaixo.js"></script>
     <script src="../dataqgiz/limitesmapaSTN.js"></script>
     <script src="../dataqgiz/AreaRiscoEscorregamento.js"></script>
-    <script src="../dataqgiz/AreaRiscoInundacao.js"></script>
     <script src="../dataqgiz/AreaRiscoSolapamento.js"></script>
+    
     <script>
         
         // Carregue o arquivo GeoJSON
@@ -138,7 +164,6 @@
         L.control.zoom({
             position: 'topleft'
     });
-
     
         //////////////////////////////////////////////////////////////////
         //////////////////////Botão de opacidade/////////////////////////
@@ -233,26 +258,26 @@
             color: '#10C1FF',
             weight: 3,
 
-    })
+    });
 
-        var cursodaguaStn = L.geoJSON(cursoDaguajs)
+        var cursodaguaStn = L.geoJSON(cursoDaguajs);
 
-        var nascentesdaguaStna = L.geoJSON(nascentesDaguajs)
+        var nascentesdaguaStna = L.geoJSON(nascentesDaguajs);
 
         var app50mNascentesStna = L.geoJSON(app50nascjs, {
             color: '#0374C0',
             weight: 3,
-        })
+        });
 
         var app15mCursodaguaStna = L.geoJSON(app15mCursoDjs, {
             color: '#035389',
             weight: 3,
-        })
+        });
 
         var curvasdeNivelStna = L.geoJSON(curvasdeNiveljs, {
             color:'#FF0000',
             weight: 3,
-        })
+        });
 
         var municipiosVizinhosStna = L.geoJSON(municipiosVizinhosjs, {
             color: '#000000', 
@@ -262,6 +287,8 @@
         var InundacaoRiscoAlto = L.geoJSON(IRiscoAltojs, {
             color: '#C10606',
             weight: 3,
+            fillColor: '#C10606',
+            fillOpacity: 0.5,
         });
 
         var InundacaoRiscoModerado = L.geoJSON(IRiscoModeradojs, {
@@ -269,7 +296,7 @@
             weight: 3,
             fillColor: '#FF9700', // Define a cor de preenchimento
             fillOpacity: 0.5 // Define a opacidade do preenchimento (opcional)
-        })
+        });
 
         var InundacaoRiscoBaixo = L.geoJSON(IRiscoBaixojs, {
             color: '#F3FF00',
@@ -284,17 +311,12 @@
             fillOpacity: 0.5,
         });
 
-        var areaInundacao = L.geoJSON(AreaInundacao_js, {
-            color: '#062E70',
-            weight: 3,
-            fillOpacity: 0.5,
-        });
-
         var areaSalopamento = L.geoJSON(AreaSolapamento_js, {
             color: '#FF8D05',
             weight: 3,
             fillOpacity: 0.5,
-        })
+        });
+        
 
         //Layer Control
         var baseLayers = {
@@ -319,7 +341,6 @@
             "Inundação Risco Moderado": InundacaoRiscoModerado,
             "Inundação Risco Baixo": InundacaoRiscoBaixo,
             "Áreas de Escorregamento": areaEscorregamento,
-            "Áreas de Inundação": areaInundacao,
             "Áreas de Salopamento": areaSalopamento,
 
     };
@@ -327,78 +348,71 @@
         //////////////////////Layer de Controle//////////////////////////
 
         baselayersControl = L.control.layers(baseLayers, overlays,  {position: 'topright'}).addTo(map);
-
-        var layerControlContainer = baselayersControl.getContainer(); // Obtenha o contêiner da camada de controle
-        layerControlContainer.classList.add('custom-layer-control'); // Adicione uma classe personalizada ao contêiner da camada de controle
-
         // Estende a classe L.Control.Layers para adicionar um botão personalizado
         L.Control.CustomLayers = L.Control.Layers.extend({
             onAdd: function(map) {
                 // Chama o método onAdd da classe pai para obter o contêiner padrão
                 var container = L.Control.Layers.prototype.onAdd.call(this, map);
 
-                // Cria um botão personalizado para remover camadas selecionadas
+                // Cria um botão personalizado para selecionar ou remover as camadas desejadas
                 var button = L.DomUtil.create('button', 'custom-layers-button');
-                button.innerHTML = 'Remover Camadas Selecionadas';
-                button.classList.add('custom-remove-button')
+                button.innerHTML = 'Selecionar Camadas Desejadas';
+                button.classList.add('custom-select-button');
 
-                // Define a função para mostrar ou ocultar o botão com base no estado da camada de controle
-                function toggleButtonVisibility() {
-                    if (container.classList.contains('leaflet-control-layers-expanded')) {
-                        button.style.display = 'inline-block';
-                    } else {
-                        button.style.display = 'none';
-                    }
+                // Função para verificar se as camadas já estão selecionadas
+                function areLayersSelected() {
+                    return map.hasLayer(InundacaoRiscoBaixo) && map.hasLayer(InundacaoRiscoModerado) && map.hasLayer(InundacaoRiscoAlto);
                 }
 
-                // Adiciona um evento de clique ao botão para remover camadas selecionadas
+                // Adiciona um evento de clique ao botão para selecionar ou remover as camadas de inundação
                 button.addEventListener('click', function() {
-                    var selectedLayers = [];
-                    for (var layerName in overlays) {
-                        if (map.hasLayer(overlays[layerName])) {
-                            selectedLayers.push(overlays[layerName]);
-                        }
+                    if (areLayersSelected()) {
+                        map.removeLayer(InundacaoRiscoBaixo);
+                        map.removeLayer(InundacaoRiscoModerado);
+                        map.removeLayer(InundacaoRiscoAlto);
+                    } else {
+                        map.addLayer(InundacaoRiscoBaixo);
+                        map.addLayer(InundacaoRiscoModerado);
+                        map.addLayer(InundacaoRiscoAlto);
                     }
-
-                    selectedLayers.forEach(function(layer) {
-                        map.removeLayer(layer);
-                    });
                 });
 
-                // Adiciona o botão ao contêiner da camada de controle
-                container.appendChild(button);
+                // Encontra o elemento que representa a lista de overlays
+                var riscosInundacao = container.querySelector('.leaflet-control-layers-overlays');
 
-                // Adiciona um listener ao evento de click na camada de controle para atualizar a visibilidade do botão
-                map.on('overlayadd overlayremove', toggleButtonVisibility);
-
-                // Adiciona um listener ao evento de mouseover para a camada de controle para expandir o botão quando o mouse estiver sobre ela
-                container.addEventListener('mouseover', function() {
-                    this.classList.add('leaflet-control-layers-expanded');
-                    toggleButtonVisibility();
-                });
-
-                // Adiciona um listener ao evento de mouseout para a camada de controle para recolher o botão quando o mouse sair dela
-                container.addEventListener('mouseout', function() {
-                    this.classList.remove('leaflet-control-layers-expanded');
-                    toggleButtonVisibility();
-                });
-
-                // Inicialmente, oculta o botão até que a camada de controle seja estendida
-                toggleButtonVisibility();
-
+                // Adiciona o botão antes da lista de overlays
+                riscosInundacao.parentNode.insertBefore(button, riscosInundacao);
+                
                 return container;
             }
         });
 
         // Cria a layer de controle personalizada e a adiciona ao mapa
         var customLayersControl = new L.Control.CustomLayers(baseLayers, overlays, { position: 'topright' }).addTo(map);
-        
+
         // Remove a camada de controle padrão do mapa
         map.removeControl(baselayersControl);
 
+        ////////////////////////////////////////////////////////////
+        ////////////////////Scale do mapa//////////////////////////
+        var scale = L.control.scale({ position: 'bottomleft' }).addTo(map);
 
-        //Scala do mapa
-        var scale = L.control.scale({position: 'bottomright'}).addTo(map);
+        // Função para centralizar a escala no centro inferior
+        function centerScaleControl() {
+            var mapWidth = map.getSize().x;
+            var controlWidth = document.querySelector('.leaflet-control-scale').offsetWidth;
+            var offset = (mapWidth - controlWidth) / 2;
+            
+            // Define a largura desejada para a escala
+            var desiredWidth = 50; // Ajuste conforme necessário
+
+            // Aplica o deslocamento horizontal ao estilo do controle de escala
+            document.querySelector('.leaflet-control-scale').style.left = offset + 'px';
+        }
+
+        // Chame a função quando o mapa for inicializado e redimensionado
+        map.on('resize', centerScaleControl);
+        map.whenReady(centerScaleControl);
 
         ////////////////////////////////////////////////////////////
         /////////////////full screen map view//////////////////////
@@ -578,6 +592,23 @@
                 info.innerText = '';
             }, 3000); // Limpa a mensagem após 3 segundos
         });
+
+        function downloadGeoJSON(overlayName) {
+        var geoJSON;
+        if (overlayName === 'limiteStn') {
+            geoJSON = limiteStn.toGeoJSON();
+        } else if (overlayName === 'municipiosVizinhosStna') {
+            geoJSON = municipiosVizinhosStna.toGeoJSON();
+        }
+        var blob = new Blob([JSON.stringify(geoJSON)], { type: "application/json" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = overlayName + ".geojson";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
 
     </script>
 

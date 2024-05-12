@@ -1,0 +1,71 @@
+
+
+        var layerControlContainer = baselayersControl.getContainer(); // Obtenha o contêiner da camada de controle
+        layerControlContainer.classList.add('custom-layer-control'); // Adicione uma classe personalizada ao contêiner da camada de controle
+
+        // Estende a classe L.Control.Layers para adicionar um botão personalizado
+        L.Control.CustomLayers = L.Control.Layers.extend({
+            onAdd: function(map) {
+                // Chama o método onAdd da classe pai para obter o contêiner padrão
+                var container = L.Control.Layers.prototype.onAdd.call(this, map);
+
+                // Cria um botão personalizado para remover camadas selecionadas
+                var button = L.DomUtil.create('button', 'custom-layers-button');
+                button.innerHTML = 'Remover Camadas Selecionadas';
+                button.classList.add('custom-remove-button')
+
+                // Define a função para mostrar ou ocultar o botão com base no estado da camada de controle
+                function toggleButtonVisibility() {
+                    if (container.classList.contains('leaflet-control-layers-expanded')) {
+                        button.style.display = 'inline-block';
+                    } else {
+                        button.style.display = 'none';
+                    }
+                }
+
+                // Adiciona um evento de clique ao botão para remover camadas selecionadas
+                button.addEventListener('click', function() {
+                    var selectedLayers = [];
+                    for (var layerName in overlays) {
+                        if (map.hasLayer(overlays[layerName])) {
+                            selectedLayers.push(overlays[layerName]);
+                        }
+                    }
+
+                    selectedLayers.forEach(function(layer) {
+                        map.removeLayer(layer);
+                    });
+                });
+
+                
+                // Adiciona o botão ao contêiner da camada de controle
+                container.appendChild(button);
+
+                // Adiciona um listener ao evento de click na camada de controle para atualizar a visibilidade do botão
+                map.on('overlayadd overlayremove', toggleButtonVisibility);
+
+                // Adiciona um listener ao evento de mouseover para a camada de controle para expandir o botão quando o mouse estiver sobre ela
+                container.addEventListener('mouseover', function() {
+                    this.classList.add('leaflet-control-layers-expanded');
+                    toggleButtonVisibility();
+                });
+
+                // Adiciona um listener ao evento de mouseout para a camada de controle para recolher o botão quando o mouse sair dela
+                container.addEventListener('mouseout', function() {
+                    this.classList.remove('leaflet-control-layers-expanded');
+                    toggleButtonVisibility();
+                });
+
+                // Inicialmente, oculta o botão até que a camada de controle seja estendida
+                toggleButtonVisibility();
+
+                return container;
+            }
+        });
+
+        // Cria a layer de controle personalizada e a adiciona ao mapa
+        var customLayersControl = new L.Control.CustomLayers(baseLayers, overlays, { position: 'topright' }).addTo(map);
+        
+        // Remove a camada de controle padrão do mapa
+        map.removeControl(baselayersControl);
+        

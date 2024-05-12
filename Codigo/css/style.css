@@ -1,14 +1,13 @@
 
 #mapid{
     height: 550px;
-    width: 95%;
-    margin: 10px;
-    margin-left: 10;
-    margin-right: 10;
+    width: auto;
+    margin-left: 10px;
+    margin-right: 65px;
     z-index: 0; /* Z-index menor para garantir que fique atrás */
     border-radius: 0;
     cursor: pointer;
-    margin-top: -15px;
+    margin-top: 20px;
 }
 
 /* Se necessário, para garantir que não haja margens ou preenchimentos adicionais: */
@@ -26,54 +25,83 @@ body, html {
 
 .cabecalho img {
     position: absolute;
-    top: -2px;
+    top: 5px;
     margin-left: 12px;
-    width: 100px; 
+    width: 110px; 
     height: auto; 
     z-index: 999999;
 }
 
-h1 {
-    text-align: center;
-    font-family: Arial;
-    width: 100%; /* Largura do h1 ajustada */
-    height: 60px;
-    padding: 10px; /* Adicionado padding para melhor aparência */
-    z-index: 2; /* Certifique-se de que o h1 esteja acima da faixa preta */
-    position: relative; /* Posição relativa para garantir a ordem de empilhamento correta */
-    color: #ffffff;
-    background: center/cover;
-    background-color: rgb(2, 33, 79);
-    top: -22px;
-    line-height: 60px;
-    font-size: 40px;
+:root {
+    --color-dark-blue: rgb(2, 33, 79); /* Azul escuro */
+    --color-yellow: #FBC409; /* Amarelo */
 }
 
-.faixa-superior {
-    width: 100%; /* Define a largura da faixa para ocupar toda a largura da tela */
-    height: 10px; /* Define a altura da faixa */
-    background-color: #FBC409; /* Define a cor de fundo da faixa como amarelo */
-    position: relative; /* Posição relativa para garantir a ordem de empilhamento correta */
-    z-index: 1; /* Certifique-se de que a faixa esteja abaixo do h1 */
-
+h1 {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    width: auto;
+    height: 85px;
+    padding: 10px;
+    z-index: 2;
+    position: relative;
+    color: rgb(2, 33, 79);
+    background: linear-gradient(to right, var(--color-dark-blue), var(--color-yellow));
+    top: -22px;
+    margin: 0 auto;
+    line-height: 100px;
+    text-shadow: 2px 2px 2px rgb(239, 237, 237);
 }
 
 .faixa-inferior {
-    width: 100%; /* Define a largura da faixa para ocupar toda a largura da tela */
-    height: 10px; /* Define a altura da faixa */
-    background-color: #FBC409; /* Define a cor de fundo da faixa como amarelo */
-    position: relative; /* Posição relativa para garantir a ordem de empilhamento correta */
-    z-index: 1; /* Certifique-se de que a faixa esteja abaixo do h1 */
-    top: -44px;
-
+    width: auto;
+    height: 10px;
+    background-color: rgb(2, 33, 79); /* Use accent color from palette */
+    position: relative;
+    z-index: 1;
+    top: -15px;
 }
 
-.custom-layer-control {
-    background-color: white;
-    border: none; /* Remove a borda */
-    padding: 50px; /* Remove qualquer preenchimento interno */
-    z-index: 1000;
-
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+}
+.dropdown-btn {
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    background-color: #fff;
+    cursor: pointer;
+}
+.dropdown-btn:hover {
+    background-color: #d5d4d4;
+}
+.dropdown-content {
+    margin-left: 10px;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 9999;
+}
+.dropdown-content a{
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover {
+    background-color:  #d5d4d4;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.download-btn {
+    margin-top: 10px;
+    display: inline-block;
+    margin-left: 20px;
 }
 
 /* Estilo para o botão personalizado */
@@ -87,6 +115,22 @@ h1 {
 /* Personalizar quando hover */
 .custom-remove-button:hover {
     background-color: #cc0000; 
+}
+
+/* botão selecionar camadas*/
+.custom-layers-button {
+    display: block;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.custom-layers-button:hover {
+    background-color: #286090;
 }
 
 /* Estilos para o controle de busca */
@@ -219,11 +263,12 @@ h1 {
 .coordinate {
     position: absolute;
     bottom: 10px; /* Distância em relação à parte inferior */
-    left: 50%; /* Distância em relação à direita */
+    left: 50%; /* Posiciona no meio horizontal */
     transform: translateX(-50%);
     border: 2px solid #000;
     padding: 3px 10px; /* Preenchimento superior e inferior de 3px e preenchimento esquerdo e direito de 10px */
     margin-bottom: 20px; /* Pode ser ajustado conforme necessário */
+    
     background-color: rgba(255, 255, 255, 0.8); /* Branco opaco com 80% de opacidade */
     border-radius: 10px;
     text-align: end;

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Botão Dropdown com Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .dropdown-btn {
+            border: 1px solid #ccc;
+            padding: 10px 15px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+        .dropdown-btn:hover {
+            background-color: #d5d4d4;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 9999;
+        }
+        .dropdown-content a{
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .download-btn {
+            margin-top: 10px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dropdown">
+    <button class="dropdown-btn">Selecionar Camada</button>
+    <div class="dropdown-content">
+        <a href="#" onclick="changeBaseLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')">OpenStreetMap</a>
+        <a href="#" onclick="changeBaseLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png')">OpenTopoMap</a>
+        <a href="#" onclick="changeBaseLayer('https://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png')">Toner</a>
+    </div>
+</div>
+
+<div class="dropdown">
+    <button class="dropdown-btn">Selecionar Sobreposição</button>
+    <div class="dropdown-content">
+        <a href="#" onclick="toggleOverlay('overlay1')">Overlay 1</a>
+        <a href="#" onclick="toggleOverlay('overlay2')">Overlay 2</a>
+    </div>
+</div>
+
+<div class="dropdown">
+    <button class="dropdown-btn">Download GeoJSON</button>
+    <div class="dropdown-content">
+        <a href="#" onclick="downloadGeoJSON('overlay1')">Overlay 1</a>
+        <a href="#" onclick="downloadGeoJSON('overlay2')">Overlay 2</a>
+    </div>
+</div>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([-22.9035, -43.2096], 11); // Define a posição inicial do mapa e o nível de zoom
+
+    var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map); // Adiciona a camada OpenStreetMap como padrão
+
+    var overlay1Polygon = L.polygon([
+        [-22.9, -43.2],
+        [-22.8, -43.3],
+        [-22.7, -43.2]
+    ]).bindPopup('Polygon 1');
+
+    var overlay2Polygon = L.polygon([
+        [-22.95, -43.25],
+        [-22.85, -43.35],
+        [-22.75, -43.25]
+    ]).bindPopup('Polygon 2');
+
+    var overlay1 = L.layerGroup([overlay1Polygon]); // Cria um grupo de camadas para a sobreposição 1
+    var overlay2 = L.layerGroup([overlay2Polygon]); // Cria um grupo de camadas para a sobreposição 2
+
+    function changeBaseLayer(layerUrl) {
+        map.removeLayer(baseLayer); // Remove a camada base atual
+        baseLayer = L.tileLayer(layerUrl).addTo(map); // Adiciona a nova camada base ao mapa
+    }
+
+    function toggleOverlay(overlayName) {
+        if (overlayName === 'overlay1') {
+            if (map.hasLayer(overlay1)) {
+                map.removeLayer(overlay1); // Remove a sobreposição 1 se estiver ativa
+            } else {
+                overlay1.addTo(map); // Adiciona a sobreposição 1 ao mapa
+            }
+        } else if (overlayName === 'overlay2') {
+            if (map.hasLayer(overlay2)) {
+                map.removeLayer(overlay2); // Remove a sobreposição 2 se estiver ativa
+            } else {
+                overlay2.addTo(map); // Adiciona a sobreposição 2 ao mapa
+            }
+        }
+    }
+
+    function downloadGeoJSON(overlayName) {
+        var geoJSON;
+        if (overlayName === 'overlay1') {
+            geoJSON = overlay1.toGeoJSON();
+        } else if (overlayName === 'overlay2') {
+            geoJSON = overlay2.toGeoJSON();
+        }
+        var blob = new Blob([JSON.stringify(geoJSON)], { type: "application/json" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = overlayName + ".geojson";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
