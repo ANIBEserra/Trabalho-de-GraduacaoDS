@@ -593,13 +593,39 @@
             }, 3000); // Limpa a mensagem após 3 segundos
         });
 
+        //função para download no de camadas formato geojson
         function downloadGeoJSON(overlayName) {
         var geoJSON;
         if (overlayName === 'limiteStn') {
             geoJSON = limiteStn.toGeoJSON();
         } else if (overlayName === 'municipiosVizinhosStna') {
             geoJSON = municipiosVizinhosStna.toGeoJSON();
+        } else if (overlayName === 'massadaguaStn') {
+            geoJSON = massadaguaStn.toGeoJSON();
+        } else if (overlayName === 'cursodaguaStn') {
+            geoJSON = cursodaguaStn.toGeoJSON();
+        } else if (overlayName === 'nascentesdaguaStna') {
+            geoJSON = nascentesdaguaStna.toGeoJSON();
+        } else if (overlayName === 'app50mNascentesStna') {
+            geoJSON = app50mNascentesStna.toGeoJSON();
+        } else if (overlayName === 'app15mCursodaguaStna') {
+            geoJSON = app15mCursodaguaStna.toGeoJSON();
+        } else if (overlayName === 'curvasdeNivelStna') {
+            geoJSON = curvasdeNivelStna.toGeoJSON();
+        } else if (overlayName === 'InundacaoRiscoAlto') {
+            geoJSON = InundacaoRiscoAlto.toGeoJSON();
+        } else if (overlayName === 'InundacaoRiscoModerado') {
+            geoJSON = InundacaoRiscoModerado.toGeoJSON();
+        } else if (overlayName === 'InundacaoRiscoBaixo') {
+            geoJSON = InundacaoRiscoBaixo.toGeoJSON();
+        } else if (overlayName === 'areaEscorregamento') {
+            geoJSON = areaEscorregamento.toGeoJSON();
+        } else if (overlayName === 'areaSalopamento') {
+            geoJSON = areaSalopamento.toGeoJSON();
         }
+      
+
+        
         var blob = new Blob([JSON.stringify(geoJSON)], { type: "application/json" });
         var url = URL.createObjectURL(blob);
         var a = document.createElement('a');
