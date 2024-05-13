@@ -20,6 +20,11 @@
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
 
+    <!-- Leaflet Grouped Layer Control CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css" />
+    <!-- Leaflet Grouped Layer Control js -->
+    <script src="https://unpkg.com/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js"></script>
+
     <!-- Geocoder-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script> 
@@ -41,7 +46,6 @@
 </head>
 
 <body>
-
 
     <section class="buttons">
     <!-- Sessão de criação dos botões que filtrarão mapa -->
@@ -68,6 +72,17 @@
     <div class="faixa-superior"></div>
     <h1> Portal Geo Parnaíba </h1>
     <div class="faixa-inferior"></div>
+
+    <div class="menu-base">
+        <button class="menu-btn">Camadas de Base</button>
+        <div class="menu-content">
+            <a href="#" onclick="toggleBaseLayer('Thunderforest_OpenCycleMap')">Thunderforest_OpenCycleMap</a>
+            <a href="#" onclick="toggleBaseLayer('googleStreets')">googleStreets</a>
+            <a href="#" onclick="toggleBaseLayer('googleHybrid')">googleHybrid</a>
+            <a href="#" onclick="toggleBaseLayer('googleSat')">Google Satelite</a>
+            <a href="#" onclick="toggleBaseLayer('osm')">OSM</a>
+        </div>
+    </div>
 
     <!--botão html com camadas overlayers-->
     <div class="dropdown">
@@ -115,6 +130,7 @@
     <script src="../dataqgiz/limitesmapaSTN.js"></script>
     <script src="../dataqgiz/AreaRiscoEscorregamento.js"></script>
     <script src="../dataqgiz/AreaRiscoSolapamento.js"></script>
+    <script src="../test.js"></script>
     
     <script>
         
@@ -220,7 +236,7 @@
         var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', 
         opacity: 0.8,
-    }).addTo(map);
+    });
 
         var Thunderforest_OpenCycleMap = L.tileLayer('https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey={apikey}', {
         attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -229,20 +245,34 @@
     });
 
         //tilelayers google
-        googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',{
+        googleStreets = L.tileLayer('https://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',{
         maxZoom: 20,
         subdomains:['mt0','mt1','mt2','mt3'],
         layers: [],
     });
 
-        googleSat = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',{
+        googleSat = L.tileLayer('https://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',{
         maxZoom: 20,
         subdomains:['mt0','mt1','mt2','mt3']
     });
 
-        googleHybrid = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}',{
+        googleHybrid = L.tileLayer('https://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}',{
         maxZoom: 20,
         subdomains:['mt0','mt1','mt2','mt3']
+    });
+
+        var Stadia_AlidadeSmooth = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
+        minZoom: 0,
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        ext: 'png'
+    }).addTo(map);
+
+        var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
+        minZoom: 0,
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        ext: 'png'
     });
         
         //////////////////////////////////////////////////////////////////
@@ -316,82 +346,52 @@
             weight: 3,
             fillOpacity: 0.5,
         });
-        
+
+        //additional baselayers
+        var additional_baselayers = {
+            "Thunderforest_OpenCycleMap": Thunderforest_OpenCycleMap,
+            "Stadia_AlidadeSmoothDark": Stadia_AlidadeSmoothDark,
+        }
 
         //Layer Control
-        var baseLayers = {
-            "Thunderforest_OpenCycleMap": Thunderforest_OpenCycleMap,
-            "Google Maps": googleStreets,
-            "Satellite Streets": googleHybrid,
-            "Satellite": googleSat,
-            "OSM": osm,
-    }
+        var baselayers = {
+            "Base Maps": {
+                "Stadia": Stadia_AlidadeSmooth,
+                "Google Maps": googleStreets,
+                "Satellite Streets": googleHybrid,
+                "Satellite": googleSat,
+                "OSM": osm,
+            },
+            "Camadas": {
+                "Limite Municipal": limiteStn,
+                "Municípios vizinhos": municipiosVizinhosStna,
+                "Massa Dágua Stna": massadaguaStn,
+                "Curso Dágua Stna": cursodaguaStn,
+                "Nascentes Dágua Stna": nascentesdaguaStna,
+                "App 50m Nascentes Stna": app50mNascentesStna,
+                "App 15m Curso Dagua Stna": app15mCursodaguaStna,
+                "Curvas de Nível Stna": curvasdeNivelStna,
+                "Áreas de Escorregamento": areaEscorregamento,
+                "Áreas de Salopamento": areaSalopamento,
+            },
+            "Risco de Inundação": {
+                "Inundação Risco Baixo": InundacaoRiscoBaixo,
+                "Inundação Risco Moderado": InundacaoRiscoModerado,
+                "Inuncadação Risco Alto": InundacaoRiscoAlto,
+            },
+            
+        }
 
-        var overlays = {
-            //"Marker": marker,
-            "Limite Municipio": limiteStn,
-            "Municípios vizinhos": municipiosVizinhosStna,
-            "Massa Dágua Stna": massadaguaStn,
-            "Curso Dágua Stna": cursodaguaStn,
-            "Nascentes Dágua Stna": nascentesdaguaStna,
-            "App 50m Nascentes Stna": app50mNascentesStna,
-            "App 15m Curso Dagua Stna": app15mCursodaguaStna,
-            "Curvas de Nível Stna": curvasdeNivelStna,
-            "Inuncadação Risco Alto": InundacaoRiscoAlto,
-            "Inundação Risco Moderado": InundacaoRiscoModerado,
-            "Inundação Risco Baixo": InundacaoRiscoBaixo,
-            "Áreas de Escorregamento": areaEscorregamento,
-            "Áreas de Salopamento": areaSalopamento,
+        //modifica configurações padronizadas
+        var options = {
+            exclusiveGroups: ["Base Maps"], //grupo exclusivo, ou seja, apenas um pode ser selecionado por vez.
+            groupCheckboxes: true, //seleciona todas as camadas do grupo.
+        };
 
-    };
         //////////////////////////////////////////////////////////////////
         //////////////////////Layer de Controle//////////////////////////
 
-        baselayersControl = L.control.layers(baseLayers, overlays,  {position: 'topright'}).addTo(map);
-        // Estende a classe L.Control.Layers para adicionar um botão personalizado
-        L.Control.CustomLayers = L.Control.Layers.extend({
-            onAdd: function(map) {
-                // Chama o método onAdd da classe pai para obter o contêiner padrão
-                var container = L.Control.Layers.prototype.onAdd.call(this, map);
-
-                // Cria um botão personalizado para selecionar ou remover as camadas desejadas
-                var button = L.DomUtil.create('button', 'custom-layers-button');
-                button.innerHTML = 'Selecionar Camadas Desejadas';
-                button.classList.add('custom-select-button');
-
-                // Função para verificar se as camadas já estão selecionadas
-                function areLayersSelected() {
-                    return map.hasLayer(InundacaoRiscoBaixo) && map.hasLayer(InundacaoRiscoModerado) && map.hasLayer(InundacaoRiscoAlto);
-                }
-
-                // Adiciona um evento de clique ao botão para selecionar ou remover as camadas de inundação
-                button.addEventListener('click', function() {
-                    if (areLayersSelected()) {
-                        map.removeLayer(InundacaoRiscoBaixo);
-                        map.removeLayer(InundacaoRiscoModerado);
-                        map.removeLayer(InundacaoRiscoAlto);
-                    } else {
-                        map.addLayer(InundacaoRiscoBaixo);
-                        map.addLayer(InundacaoRiscoModerado);
-                        map.addLayer(InundacaoRiscoAlto);
-                    }
-                });
-
-                // Encontra o elemento que representa a lista de overlays
-                var riscosInundacao = container.querySelector('.leaflet-control-layers-overlays');
-
-                // Adiciona o botão antes da lista de overlays
-                riscosInundacao.parentNode.insertBefore(button, riscosInundacao);
-                
-                return container;
-            }
-        });
-
-        // Cria a layer de controle personalizada e a adiciona ao mapa
-        var customLayersControl = new L.Control.CustomLayers(baseLayers, overlays, { position: 'topright' }).addTo(map);
-
-        // Remove a camada de controle padrão do mapa
-        map.removeControl(baselayersControl);
+        controle = L.control.groupedLayers(null, baselayers, options, {position: 'topright'}).addTo(map);
 
         ////////////////////////////////////////////////////////////
         ////////////////////Scale do mapa//////////////////////////
@@ -623,8 +623,6 @@
         } else if (overlayName === 'areaSalopamento') {
             geoJSON = areaSalopamento.toGeoJSON();
         }
-      
-
         
         var blob = new Blob([JSON.stringify(geoJSON)], { type: "application/json" });
         var url = URL.createObjectURL(blob);
@@ -636,6 +634,40 @@
         window.URL.revokeObjectURL(url);
     }
 
+    // Função para alternar entre as camadas base do mapa
+    function toggleBaseLayer(layer) {
+    if (layer === 'Thunderforest_OpenCycleMap') {
+        Thunderforest_OpenCycleMap.addTo(map);
+        googleStreets.remove();
+        googleHybrid.remove();
+        googleSatellite.remove();
+        osm.remove();
+    } else if (layer === 'googleStreets') {
+        googleStreets.addTo(map);
+        Thunderforest_OpenCycleMap.remove();
+        googleHybrid.remove();
+        googleSatellite.remove();
+        osm.remove();
+    } else if (layer === 'googleHybrid') {
+        googleHybrid.addTo(map);
+        Thunderforest_OpenCycleMap.remove();
+        googleStreets.remove();
+        googleSatellite.remove();
+        osm.remove();
+    } else if (layer === 'googleSatellite') {
+        googleSatellite.addTo(map);
+        Thunderforest_OpenCycleMap.remove();
+        googleStreets.remove();
+        googleHybrid.remove();
+        osm.remove();
+    } else if (layer === 'osm') {
+        osm.addTo(map);
+        Thunderforest_OpenCycleMap.remove();
+        googleStreets.remove();
+        googleHybrid.remove();
+        googleSatellite.remove();
+    }
+    }
     </script>
 
 </body>

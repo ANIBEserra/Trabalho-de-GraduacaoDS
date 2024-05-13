@@ -1,5 +1,0 @@
-a fazer:
-
-1. unir areas de risco alto, moderado e baixo para um único botão;
-2. identificá-las por cores e suas respectivas legendas
-3.  
