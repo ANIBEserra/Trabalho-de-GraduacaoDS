@@ -3,7 +3,7 @@
     height: 550px;
     width: auto;
     margin-left: 10px;
-    margin-right: 65px;
+    margin-right: 10px;
     z-index: 0; /* Z-index menor para garantir que fique atrás */
     border-radius: 0;
     cursor: pointer;
@@ -63,31 +63,35 @@ h1 {
 }
 
 .menu-base {
-    margin-top: -14px;
-    position: auto;
+    position: relative; /* Mantém o posicionamento relativo para garantir que o conteúdo do dropdown seja posicionado corretamente */
     display: inline-block;
     margin-right: auto;
     margin-left: 10px;
+    z-index: 9999; /* Ajustado para garantir que o botão fique sobreposto a outras camadas */
 }
 .menu-btn {
-    margin-top: 10px;
-    margin-left: 0;
-    border: 1px solid #ccc;
-    padding: 10px 25px;
+    margin-top: 30px;
+    margin-left: 10px;
+    border: 1px solid rgb(2, 33, 79);
+    padding: 10px 20px;
     background-color: rgb(2, 33, 79);
     color:#ffffff;
     cursor: pointer;
     z-index: 9999;
+    position: absolute;
+    top: 10px; /* Ajuste a posição vertical conforme necessário */
+    left: 10px; /* Ajuste a posição horizontal conforme necessário */
 }
 .menu-content {
+    margin-top: 30px;
+    margin-left: 10px;
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 9999;
-    max-height: 560px; /* Substitua 50px pela altura do cabeçalho ou qualquer outra parte fixa acima do mapa */
+    max-height: 560px;
     overflow-y: auto;
+    z-index: 9999;
 }
 .menu-content a{
     color: black;
@@ -111,7 +115,7 @@ h1 {
 
 .dropdown-btn {
     margin-top: 5px;
-    margin-left: 10px;
+    margin-left: 5px;
     border: 1px solid #ccc;
     padding: 10px 25px;
     background-color: rgb(2, 33, 79);
@@ -149,9 +153,9 @@ h1 {
 }
 
 .download-btn {
+    margin-left: 10px;
     margin-top: 10px;
     display: inline-block;
-    margin-left: 20px;
 }
 
 /* Estilos para o controle de busca */
@@ -247,7 +251,7 @@ h1 {
     z-index: 9999; /* Valor alto para garantir que o ícone se sobreponha a outros elementos */
     color: #ffffff;
     background-color: rgb(2, 33, 79);
-    border: 1px solid #c6c7c6;
+    border: 1px solid rgb(2, 33, 79);
     border-radius: 0;
     font-size: 15px; /* Tamanho do ícone ajustado */
     padding: 10px 15px;
@@ -264,10 +268,10 @@ h1 {
     right: 10px; /* Distância da esquerda da janela */
     z-index: 9999; /* Valor alto para garantir que sobreponha outros elementos */
     background-color: rgb(2, 33, 79); /* Cor de fundo do botão */
+    border: 1px solid rgb(2, 33, 79);
     color: white; /* Cor do texto do botão */
     padding: 10px 15px; /* Espaçamento interno do botão */
     font-size: 15px; /* Tamanho da fonte do texto do botão */
-    border: 1px solid #c6c7c6;
     border-radius: 0; /* Arredondamento dos cantos do botão */
     cursor: pointer; /* Cursor ao passar o mouse sobre o botão */      
 }
@@ -281,10 +285,10 @@ h1 {
     right: 10px; /* Distância da esquerda da janela */
     z-index: 9999; /* Valor alto para garantir que sobreponha outros elementos */
     background-color: rgb(2, 33, 79); /* Cor de fundo do botão */
+    border: 1px solid rgb(2, 33, 79);
     color: white; /* Cor do texto do botão */
     padding: 10px 15px; /* Espaçamento interno do botão */
     font-size: 15px; /* Tamanho da fonte do texto do botão */
-    border: 1px solid #c6c7c6;
     border-radius: 0; /* Arredondamento dos cantos do botão */
     cursor: pointer; /* Cursor ao passar o mouse sobre o botão */      
 }
@@ -326,4 +330,49 @@ h1 {
 
 .leaflet-control-scale-label {
     color: #ffffff;
+}
+
+/* Estilo para o menu lateral */
+.menu-lateral {
+    width: 40px; /* Largura inicial*/
+    height: 100%;
+    position: fixed;
+    top: 154px;
+    right: 0; /* Posicionamento no lado direito */
+    background-color: rgb(2, 33, 79);
+    padding-top: 50px;
+    transition: width 0.3s; /* Transição suave da largura */
+    z-index: 9999;
+}
+
+/* Estilo para os botões do menu */
+.menu-lateral .fullscreen-button,
+.menu-lateral .print-map,
+.menu-lateral .custom-search-control,
+.menu-lateral .centermap {
+    visibility: hidden;
+    position: fixed;
+    right: 10px; /* Ajuste conforme necessário */
+    z-index: 9999; /* Valor alto para garantir que os ícones se sobreponham a outros elementos */
+}
+/* Estilo para os botões do menu quando o menu for expandido */
+.menu-lateral:hover .fullscreen-button,
+.menu-lateral:hover .print-map,
+.menu-lateral:hover .custom-search-control,
+.menu-lateral:hover .centermap {
+    visibility: visible; /* Torna os botões visíveis quando o menu é expandido */
+}
+
+/* Estilo para os botões do menu quando o menu for expandido */
+.menu-lateral:hover {
+    width: 60px; /* Largura expandida do menu */
+}
+
+/* Estilo para os botões do menu quando passar o mouse */
+.menu-lateral .fullscreen-button:hover,
+.menu-lateral .print-map:hover,
+.menu-lateral .custom-search-control:hover,
+.menu-lateral .centermap:hover {
+    visibility: visible;
+    background-color: #2c3e50; /* Cor de fundo ao passar o mouse */
 }

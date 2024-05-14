@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Lateral</title>
+    <style>
+        /* Estilo para o menu lateral */
+        .menu-lateral {
+            width: 50px;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #8d0000;
+            padding-top: 50px;
+            transition: width 0.3s; /* Transição suave da largura */
+        
+        }
+
+        /* Estilo para os itens do menu */
+        .menu-lateral a {
+            padding: 10px 15px;
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            visibility: hidden;
+        }
+
+        /* Estilo para os itens do menu quando passar o mouse */
+        .menu-lateral:hover {
+            width: auto; /* Largura expandida do menu */
+        }
+        /* Estilo para os itens do menu quando o menu for expandido */
+        .menu-lateral:hover a {
+            visibility: visible; /* Exibe quando o menu é expandido */
+        }
+
+        /* Estilo para os itens do menu quando passar o mouse */
+        .menu-lateral a:hover {
+            background-color: #555;
+        }
+
+        /* Estilo para o conteúdo principal */
+        .menu-conteudo-lateral {
+            display: none;
+            margin-left: 50px; /* Largura inicial do menu lateral */
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="menu-lateral">
+    <a href="#">Item 1</a>
+    <a href="#">Item 2</a>
+    <a href="#">Item 3</a>
+    <a href="#">Item 4</a>
+    <a href="#">Item 5</a>
+    <button class="fullscreen-button" onclick="fullScreenview()">Tela Cheia</button>
+</div>
+
+<div class="menu-conteudo-lateral">
+    <h1>Conteúdo Principal</h1>
+    <p>Este é o conteúdo principal da página.</p>
+</div>
+
+<script>
+    window.addEventListener('scroll', function() {
+        var button = document.querySelector('.fullscreen-button');
+        if (window.scrollY > 0) {
+            button.style.display = 'none'; // Esconde o botão quando a página é rolada para baixo
+        } else {
+            button.style.display = 'block'; // Mostra o botão quando a página está no topo
+        }
+    });
+
+        var mapId = document.getElementById('mapid')
+        function fullScreenview() {
+            mapId.requestFullscreen();
+    }
+</script>
+</body>
+</html>

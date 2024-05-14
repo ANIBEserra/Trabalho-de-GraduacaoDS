@@ -48,19 +48,22 @@
 <body>
 
     <section class="buttons">
-    <!-- Sessão de criação dos botões que filtrarão mapa -->
-        <div class="fullscreen-button">
-            <i class="bi bi-arrows-fullscreen fullscreen-icon" onclick="fullScreenview()" title="Tela cheia"></i> <!-- fullscreen button-->
-        </div>
 
-        <div class="print-map">
-            <i class="bi bi-printer" onclick="" title="Imprimir mapa"></i> 
-        </div>
+        <!-- Sessão de criação dos botões que filtrarão mapa -->
+        <div class="menu-lateral">
+            <div class="fullscreen-button" onclick="fullScreenview()" title="Tela cheia">
+                <i class="bi bi-arrows-fullscreen fullscreen-icon"></i> <!-- fullscreen button-->
+            </div>
 
-        <div class="custom-search-control"></div>
+            <div class="print-map" title="Imprimir mapa">
+                <i class="bi bi-printer"></i> 
+            </div>
 
-        <div class="centermap">
-            <i class="bi bi-align-center" id="centerMapButton" title="Centralizar mapa"></i>
+            <div class="custom-search-control"></div>
+
+            <div class="centermap" title="Centralizar mapa">
+                <i class="bi bi-align-center" id="centerMapButton"></i>
+            </div>
         </div>
 
     </section>
@@ -74,13 +77,14 @@
     <div class="faixa-inferior"></div>
 
     <div class="menu-base">
-        <button class="menu-btn">Camadas de Base</button>
+        <button class="menu-btn">Mapas Base</button>
         <div class="menu-content">
-            <a href="#" onclick="toggleBaseLayer('Thunderforest_OpenCycleMap')">Thunderforest_OpenCycleMap</a>
-            <a href="#" onclick="toggleBaseLayer('googleStreets')">googleStreets</a>
-            <a href="#" onclick="toggleBaseLayer('googleHybrid')">googleHybrid</a>
+            <a href="#" onclick="toggleBaseLayer('Thunderforest_OpenCycleMap')">Thunderforest</a>
+            <a href="#" onclick="toggleBaseLayer('googleStreets')">Google Streets</a>
+            <a href="#" onclick="toggleBaseLayer('googleHybrid')">Google Hybrido</a>
             <a href="#" onclick="toggleBaseLayer('googleSat')">Google Satelite</a>
             <a href="#" onclick="toggleBaseLayer('osm')">OSM</a>
+            <a href="#" onclick="toggleBaseLayer('Stadia_AlidadeSmooth')">Stadia</a>
         </div>
     </div>
 
@@ -636,38 +640,27 @@
 
     // Função para alternar entre as camadas base do mapa
     function toggleBaseLayer(layer) {
-    if (layer === 'Thunderforest_OpenCycleMap') {
-        Thunderforest_OpenCycleMap.addTo(map);
-        googleStreets.remove();
-        googleHybrid.remove();
-        googleSatellite.remove();
-        osm.remove();
-    } else if (layer === 'googleStreets') {
-        googleStreets.addTo(map);
-        Thunderforest_OpenCycleMap.remove();
-        googleHybrid.remove();
-        googleSatellite.remove();
-        osm.remove();
-    } else if (layer === 'googleHybrid') {
-        googleHybrid.addTo(map);
-        Thunderforest_OpenCycleMap.remove();
-        googleStreets.remove();
-        googleSatellite.remove();
-        osm.remove();
-    } else if (layer === 'googleSatellite') {
-        googleSatellite.addTo(map);
-        Thunderforest_OpenCycleMap.remove();
-        googleStreets.remove();
-        googleHybrid.remove();
-        osm.remove();
-    } else if (layer === 'osm') {
-        osm.addTo(map);
-        Thunderforest_OpenCycleMap.remove();
-        googleStreets.remove();
-        googleHybrid.remove();
-        googleSatellite.remove();
+        // Remove todas as camadas do mapa
+        map.eachLayer(function (layer) {
+            map.removeLayer(layer);
+        });
+
+        // Adiciona a camada selecionada
+        if (layer === 'Thunderforest_OpenCycleMap') {
+            Thunderforest_OpenCycleMap.addTo(map);
+        } else if (layer === 'googleStreets') {
+            googleStreets.addTo(map);
+        } else if (layer === 'googleHybrid') {
+            googleHybrid.addTo(map);
+        } else if (layer === 'googleSat') {
+            googleSat.addTo(map);
+        } else if (layer === 'osm') {
+            osm.addTo(map);
+        } else if (layer === 'Stadia_AlidadeSmooth') {
+            Stadia_AlidadeSmooth.addTo(map);
+        }
     }
-    }
+
     </script>
 
 </body>
