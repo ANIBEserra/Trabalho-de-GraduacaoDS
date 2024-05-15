@@ -3,7 +3,7 @@
     height: 550px;
     width: auto;
     margin-left: 10px;
-    margin-right: 10px;
+    margin-right: 50px;
     z-index: 0; /* Z-index menor para garantir que fique atrás */
     border-radius: 0;
     cursor: pointer;
@@ -69,6 +69,24 @@ h1 {
     margin-left: 10px;
     z-index: 9999; /* Ajustado para garantir que o botão fique sobreposto a outras camadas */
 }
+
+.menu-lateral-button {
+    position: fixed;
+    top: 160px; /* Ajuste conforme necessário */
+    right: 10px; /* Posiciona o ícone à direita */
+    cursor: pointer;
+    z-index: 9999; /* Valor alto para garantir que o ícone se sobreponha a outros elementos */
+    color: #ffffff;
+    background-color: rgb(2, 33, 79);
+    border: 1px solid rgb(2, 33, 79);
+    border-radius: 0;
+    font-size: 15px; /* Tamanho do ícone ajustado */
+    padding: 10px 15px;
+}
+/* Personalizar hover */
+.menu-lateral-button i:hover {
+    background-color: rgb(1, 19, 47); 
+}
 .menu-btn {
     margin-top: 30px;
     margin-left: 10px;
@@ -79,8 +97,6 @@ h1 {
     cursor: pointer;
     z-index: 9999;
     position: absolute;
-    top: 10px; /* Ajuste a posição vertical conforme necessário */
-    left: 10px; /* Ajuste a posição horizontal conforme necessário */
 }
 .menu-content {
     margin-top: 30px;
@@ -182,6 +198,7 @@ h1 {
     width: 300px; /* Largura expandida */
 }
 
+/*grouped layer control*/
 .leaflet-control-layers-group-name {
     font-weight: bold;
     margin-bottom: .2em;
@@ -190,10 +207,12 @@ h1 {
   
 .leaflet-control-layers-group {
     margin-bottom: .5em;
+    font-size: 12px;
 }
   
 .leaflet-control-layers-scrollbar {
-    overflow-y: scroll;
+    overflow-y: auto;
+    max-height: 400px;
     padding-right: 10px;
 }
 
@@ -245,7 +264,7 @@ h1 {
 /*Botão de fullscrren*/
 .fullscreen-button i {
     position: fixed;
-    top: 110px; /* Ajuste conforme necessário */
+    top: 210px; /* Ajuste conforme necessário */
     right: 10px; /* Posiciona o ícone à direita */
     cursor: pointer;
     z-index: 9999; /* Valor alto para garantir que o ícone se sobreponha a outros elementos */
@@ -264,7 +283,7 @@ h1 {
 /*print button*/
 .print-map i {
     position: fixed;
-    top: 160px; /* Distância do topo da janela */
+    top: 260px; /* Distância do topo da janela */
     right: 10px; /* Distância da esquerda da janela */
     z-index: 9999; /* Valor alto para garantir que sobreponha outros elementos */
     background-color: rgb(2, 33, 79); /* Cor de fundo do botão */
@@ -281,7 +300,7 @@ h1 {
 
 #centerMapButton {
     position: fixed;
-    top: 210px; /* Distância do topo da janela */
+    top: 310px; /* Distância do topo da janela */
     right: 10px; /* Distância da esquerda da janela */
     z-index: 9999; /* Valor alto para garantir que sobreponha outros elementos */
     background-color: rgb(2, 33, 79); /* Cor de fundo do botão */
@@ -341,11 +360,12 @@ h1 {
     right: 0; /* Posicionamento no lado direito */
     background-color: rgb(2, 33, 79);
     padding-top: 50px;
-    transition: width 0.3s; /* Transição suave da largura */
+    transition: width 0.1s; /* Transição suave da largura */
     z-index: 9999;
 }
 
 /* Estilo para os botões do menu */
+
 .menu-lateral .fullscreen-button,
 .menu-lateral .print-map,
 .menu-lateral .custom-search-control,
@@ -356,6 +376,7 @@ h1 {
     z-index: 9999; /* Valor alto para garantir que os ícones se sobreponham a outros elementos */
 }
 /* Estilo para os botões do menu quando o menu for expandido */
+.menu-lateral:hover .menu-lateral-button,
 .menu-lateral:hover .fullscreen-button,
 .menu-lateral:hover .print-map,
 .menu-lateral:hover .custom-search-control,

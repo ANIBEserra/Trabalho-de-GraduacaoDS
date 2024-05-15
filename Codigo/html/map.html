@@ -40,6 +40,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-easybutton/2.4.0/easy-button.js"></script>
 
+    <!-- script groupedbaselayer-->
+    <script src="../scripts/leaflet.groupedlayercontrol.js"></script>
+
     <style>
     </style>
 
@@ -51,6 +54,10 @@
 
         <!-- Sessão de criação dos botões que filtrarão mapa -->
         <div class="menu-lateral">
+            <div class="menu-lateral-button">
+                <i class="bi bi-list"></i>
+            </div>
+            
             <div class="fullscreen-button" onclick="fullScreenview()" title="Tela cheia">
                 <i class="bi bi-arrows-fullscreen fullscreen-icon"></i> <!-- fullscreen button-->
             </div>
@@ -395,8 +402,9 @@
         //////////////////////////////////////////////////////////////////
         //////////////////////Layer de Controle//////////////////////////
 
-        controle = L.control.groupedLayers(null, baselayers, options, {position: 'topright'}).addTo(map);
-
+        // Crie o controle de camadas agrupadas
+        var controle = L.control.groupedLayers(null, baselayers, options, {position: 'topright'}).addTo(map);
+        
         ////////////////////////////////////////////////////////////
         ////////////////////Scale do mapa//////////////////////////
         var scale = L.control.scale({ position: 'bottomleft' }).addTo(map);
