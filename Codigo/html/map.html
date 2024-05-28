@@ -139,7 +139,6 @@
     <script src="../dataqgiz/InundacaoRiscoModerado.js"></script>
     <script src="../dataqgiz/InundacaoRiscoBaixo.js"></script>
     <script src="../dataqgiz/limitesmapaSTN.js"></script>
-    <script src="../dataqgiz/AreaRiscoSolapamento.js"></script>
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoAlto.js"></script>
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoBaixo.js"></script>
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoNulo.js"></script>
@@ -414,13 +413,6 @@
             fillOpacity: 0.5
         });
 
-
-        var areaSalopamento = L.geoJSON(AreaSolapamento_js, {
-            color: '#FF8D05',
-            weight: 3,
-            fillOpacity: 0.5,
-        });
-
         //additional baselayers
         var additional_baselayers = {
             "Thunderforest_OpenCycleMap": Thunderforest_OpenCycleMap,
@@ -445,7 +437,6 @@
                 "App 50m Nascentes Stna": app50mNascentesStna,
                 "App 15m Curso Dagua Stna": app15mCursodaguaStna,
                 "Curvas de Nível Stna": curvasdeNivelStna,
-                "Áreas de Salopamento": areaSalopamento,
             },
             "Risco de Inundação": {
                 "Inundação Risco Baixo": InundacaoRiscoBaixo,

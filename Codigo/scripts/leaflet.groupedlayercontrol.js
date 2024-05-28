@@ -5,7 +5,7 @@
 L.Control.GroupedLayers = L.Control.extend({
 
   options: {
-    collapsed: true,
+    collapsed: false,
     position: 'topright',
     autoZIndex: true,
     exclusiveGroups: [],
