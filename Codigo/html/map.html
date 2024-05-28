@@ -51,10 +51,9 @@
 <body>
 
     <section class="buttons">
-
         <!-- Sessão de criação dos botões que filtrarão mapa -->
-        <div class="menu-lateral">
-            <div class="menu-lateral-button">
+        <div class="menu-lateral" id="MenuLateral">
+            <div class="menu-lateral-button" onclick="toggleMenu()">
                 <i class="bi bi-list"></i>
             </div>
             
@@ -66,23 +65,24 @@
                 <i class="bi bi-printer"></i> 
             </div>
 
-            <div class="custom-search-control"></div>
-
             <div class="centermap" title="Centralizar mapa">
                 <i class="bi bi-align-center" id="centerMapButton"></i>
             </div>
         </div>
 
+        <div class="custom-search-control"></div>
     </section>
 
+    <!--Cabeçalho-->
     <div class="cabecalho">
-        <img src="../img/brasao_santana.png" alt="Descrição da imagem">
+        <img src="../img/brasao_santana.png" alt="Brasão Santana de Parnaíba">
     </div> 
 
     <div class="faixa-superior"></div>
     <h1> Portal Geo Parnaíba </h1>
     <div class="faixa-inferior"></div>
 
+    <!--botão html com camadas de base-->
     <div class="menu-base">
         <button class="menu-btn">Mapas Base</button>
         <div class="menu-content">
@@ -139,9 +139,15 @@
     <script src="../dataqgiz/InundacaoRiscoModerado.js"></script>
     <script src="../dataqgiz/InundacaoRiscoBaixo.js"></script>
     <script src="../dataqgiz/limitesmapaSTN.js"></script>
-    <script src="../dataqgiz/AreaRiscoEscorregamento.js"></script>
     <script src="../dataqgiz/AreaRiscoSolapamento.js"></script>
-    <script src="../test.js"></script>
+    <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoAlto.js"></script>
+    <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoBaixo.js"></script>
+    <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoNulo.js"></script>
+    <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoMedio.js"></script>
+    <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoMuitoAlto.js"></script>
+    <script src="../dataqgiz/Risco Solapamento/RiscoSolapamentoAlto.js"></script>
+    <script src="../dataqgiz/Risco Solapamento/RiscoSolapamentoMedio.js"></script>
+    <script src="../dataqgiz/Risco Solapamento/RiscoSolapamentoMuitoAlto.js"></script>
     
     <script>
         
@@ -325,6 +331,8 @@
             weight: 3, 
         });
 
+        //INUNDAÇÃO
+
         var InundacaoRiscoAlto = L.geoJSON(IRiscoAltojs, {
             color: '#C10606',
             weight: 3,
@@ -345,12 +353,67 @@
             fillColor: '#F3FF00', // Define a cor de preenchimento
             fillOpacity: 0.5 // Define a opacidade do preenchimento (opcional)
         });
-        
-        var areaEscorregamento = L.geoJSON(AreaEscorregamento_js, {
-            color: '#786C15',
+
+        //ESCORREGAMENTO
+
+        var EscorregamentoRiscoMuitoAlto = L.geoJSON(r_escorregamentoMuitoAlto_js, {
+            color: '#680303',
             weight: 3,
-            fillOpacity: 0.5,
+            fillColor: '#C10606',
+            fillOpacity: 0.5, 
         });
+
+        var EscorregamentoRiscoAlto = L.geoJSON(r_escorregamentoAlto_js, {
+            color: '#C10606',
+            weight: 3,
+            fillColor: '#C10606',
+            fillOpacity: 0.5,   
+        });
+
+        var EscorregamentoRiscoMedio = L.geoJSON(r_escorregamentoMedio_js, {
+            color:'#FF9700',
+            weight: 3,
+            fillColor: '#FF9700', // Define a cor de preenchimento
+            fillOpacity: 0.5
+        });
+
+        var EscorregamentoRiscoBaixo = L.geoJSON(r_escorregamentoBaixo_js, {
+            color: '#F3FF00',
+            weight: 3,
+            fillColor: '#F3FF00', // Define a cor de preenchimento
+            fillOpacity: 0.5
+        });
+
+        var EscorregamentoRiscoNulo = L.geoJSON(r_escorregamentoNulo_js, {
+            color: '#91FF4E',
+            weight: 3,
+            fillColor: '#91FF4E', // Define a cor de preenchimento
+            fillOpacity: 0.5
+        });
+
+        //SOLAPAMENTO
+
+        var SolapamentoRiscoMuitoAlto = L.geoJSON(r_solapamentoMuitoAlto_js, {
+            color: '#680303',
+            weight: 3,
+            fillColor: '#C10606',
+            fillOpacity: 0.5, 
+        });
+
+        var SolapamentoRiscoAlto = L.geoJSON(r_SolapamentoAlto_js, {
+            color: '#C10606',
+            weight: 3,
+            fillColor: '#C10606',
+            fillOpacity: 0.5, 
+        });
+
+        var SolapamentoRiscoMedio = L.geoJSON(r_solapamentomedio_js, {
+            color:'#FF9700',
+            weight: 3,
+            fillColor: '#FF9700', // Define a cor de preenchimento
+            fillOpacity: 0.5
+        });
+
 
         var areaSalopamento = L.geoJSON(AreaSolapamento_js, {
             color: '#FF8D05',
@@ -382,7 +445,6 @@
                 "App 50m Nascentes Stna": app50mNascentesStna,
                 "App 15m Curso Dagua Stna": app15mCursodaguaStna,
                 "Curvas de Nível Stna": curvasdeNivelStna,
-                "Áreas de Escorregamento": areaEscorregamento,
                 "Áreas de Salopamento": areaSalopamento,
             },
             "Risco de Inundação": {
@@ -390,6 +452,18 @@
                 "Inundação Risco Moderado": InundacaoRiscoModerado,
                 "Inuncadação Risco Alto": InundacaoRiscoAlto,
             },
+            "Áreas de Escorregamento": {
+                "Risco Muito Alto": EscorregamentoRiscoMuitoAlto,
+                "Risco Alto": EscorregamentoRiscoAlto,
+                "Risco Moderado": EscorregamentoRiscoMedio,
+                "Risco Baixo": EscorregamentoRiscoBaixo,
+                "Risco Nulo": EscorregamentoRiscoNulo,
+            },
+            "Áreas de Solapamento": {
+                "Risco Muito Alto": SolapamentoRiscoMuitoAlto,
+                "Risco Alto": SolapamentoRiscoAlto,
+                "Risco Moderado": SolapamentoRiscoMedio,
+            }
             
         }
 
@@ -521,6 +595,14 @@
         $('.print-map').click(function () {
             window.print();
     })
+
+        ////////////////////////////////////////////////////////////
+        ///////////////Botão Menu lateral////////////////////
+
+        function toggleMenu() {
+                var menuLateral = document.getElementById("menuLateral");
+                menuLateral.classList.toggle("active");
+            }
 
         ////////////////////////////////////////////////////////////
         ///////////////Leaflet Drawer Polígonos////////////////////

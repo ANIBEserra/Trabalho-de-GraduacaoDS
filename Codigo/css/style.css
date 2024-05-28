@@ -87,6 +87,7 @@ h1 {
 .menu-lateral-button i:hover {
     background-color: rgb(1, 19, 47); 
 }
+
 .menu-btn {
     margin-top: 30px;
     margin-left: 10px;
@@ -365,7 +366,6 @@ h1 {
 }
 
 /* Estilo para os botões do menu */
-
 .menu-lateral .fullscreen-button,
 .menu-lateral .print-map,
 .menu-lateral .custom-search-control,
