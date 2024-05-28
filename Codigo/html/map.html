@@ -135,18 +135,18 @@
     <script src="../dataqgiz/app15mCursoDagua.js"></script>
     <script src="../dataqgiz/curvasDeNivelStn.js"></script>
     <script src="../dataqgiz/municipiosVizinhosStn.js"></script>
-    <script src="../dataqgiz/InundacaoRiscoAlto.js"></script>
-    <script src="../dataqgiz/InundacaoRiscoModerado.js"></script>
-    <script src="../dataqgiz/InundacaoRiscoBaixo.js"></script>
+    <script src="../dataqgiz/RiscoInundacao/InundacaoRiscoAlto.js"></script>
+    <script src="../dataqgiz/RiscoInundacao/InundacaoRiscoModerado.js"></script>
+    <script src="../dataqgiz/RiscoInundacao/InundacaoRiscoBaixo.js"></script>
     <script src="../dataqgiz/limitesmapaSTN.js"></script>
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoAlto.js"></script>
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoBaixo.js"></script>
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoNulo.js"></script>
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoMedio.js"></script>
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoMuitoAlto.js"></script>
-    <script src="../dataqgiz/Risco Solapamento/RiscoSolapamentoAlto.js"></script>
-    <script src="../dataqgiz/Risco Solapamento/RiscoSolapamentoMedio.js"></script>
-    <script src="../dataqgiz/Risco Solapamento/RiscoSolapamentoMuitoAlto.js"></script>
+    <script src="../dataqgiz/RiscoSolapamento/RiscoSolapamentoAlto.js"></script>
+    <script src="../dataqgiz/RiscoSolapamento/RiscoSolapamentoMedio.js"></script>
+    <script src="../dataqgiz/RiscoSolapamento/RiscoSolapamentoMuitoAlto.js"></script>
     
     <script>
         
@@ -333,83 +333,83 @@
         //INUNDAÇÃO
 
         var InundacaoRiscoAlto = L.geoJSON(IRiscoAltojs, {
-            color: '#C10606',
+            color: '#0039AB',
             weight: 3,
-            fillColor: '#C10606',
+            fillColor: '#0039AB',
             fillOpacity: 0.5,
         });
 
         var InundacaoRiscoModerado = L.geoJSON(IRiscoModeradojs, {
-            color:'#FF9700',
+            color:'#074BD4',
             weight: 3,
-            fillColor: '#FF9700', // Define a cor de preenchimento
+            fillColor: '#074BD4', // Define a cor de preenchimento
             fillOpacity: 0.5 // Define a opacidade do preenchimento (opcional)
         });
 
         var InundacaoRiscoBaixo = L.geoJSON(IRiscoBaixojs, {
-            color: '#F3FF00',
+            color: '#0050F1',
             weight: 3,
-            fillColor: '#F3FF00', // Define a cor de preenchimento
+            fillColor: '#0050F1', // Define a cor de preenchimento
             fillOpacity: 0.5 // Define a opacidade do preenchimento (opcional)
         });
 
         //ESCORREGAMENTO
 
         var EscorregamentoRiscoMuitoAlto = L.geoJSON(r_escorregamentoMuitoAlto_js, {
-            color: '#680303',
+            color: '#00513F',
             weight: 3,
-            fillColor: '#C10606',
+            fillColor: '#00513F',
             fillOpacity: 0.5, 
         });
 
         var EscorregamentoRiscoAlto = L.geoJSON(r_escorregamentoAlto_js, {
-            color: '#C10606',
+            color: '#08785F',
             weight: 3,
-            fillColor: '#C10606',
+            fillColor: '#08785F',
             fillOpacity: 0.5,   
         });
 
         var EscorregamentoRiscoMedio = L.geoJSON(r_escorregamentoMedio_js, {
-            color:'#FF9700',
+            color:'#069C7A',
             weight: 3,
-            fillColor: '#FF9700', // Define a cor de preenchimento
+            fillColor: '#069C7A', // Define a cor de preenchimento
             fillOpacity: 0.5
         });
 
         var EscorregamentoRiscoBaixo = L.geoJSON(r_escorregamentoBaixo_js, {
-            color: '#F3FF00',
+            color: '#19C69F',
             weight: 3,
-            fillColor: '#F3FF00', // Define a cor de preenchimento
+            fillColor: '#19C69F', // Define a cor de preenchimento
             fillOpacity: 0.5
         });
 
         var EscorregamentoRiscoNulo = L.geoJSON(r_escorregamentoNulo_js, {
-            color: '#91FF4E',
+            color: '#3BEEC6',
             weight: 3,
-            fillColor: '#91FF4E', // Define a cor de preenchimento
+            fillColor: '#3BEEC6', // Define a cor de preenchimento
             fillOpacity: 0.5
         });
 
         //SOLAPAMENTO
 
         var SolapamentoRiscoMuitoAlto = L.geoJSON(r_solapamentoMuitoAlto_js, {
-            color: '#680303',
+            color: '#653901',
             weight: 3,
-            fillColor: '#C10606',
+            fillColor: '#653901',
             fillOpacity: 0.5, 
         });
 
         var SolapamentoRiscoAlto = L.geoJSON(r_SolapamentoAlto_js, {
-            color: '#C10606',
+            color: '#905000',
             weight: 3,
-            fillColor: '#C10606',
+            fillColor: '#905000',
             fillOpacity: 0.5, 
         });
 
         var SolapamentoRiscoMedio = L.geoJSON(r_solapamentomedio_js, {
-            color:'#FF9700',
+            color:'#BD6B04',
             weight: 3,
-            fillColor: '#FF9700', // Define a cor de preenchimento
+            fillColor: '#BD6B04', // Define a cor de preenchimento
             fillOpacity: 0.5
         });
 
