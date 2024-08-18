@@ -1,6 +1,6 @@
 
 #mapid{
-    height: 550px;
+    height: 500px;
     width: auto;
     margin: auto;
     margin-left: 10px;
@@ -128,8 +128,8 @@ h1 {
 
 /* Estilos para o botão de busca */
 .leaflet-control-geocoder a {
-    color: #333; /* Cor do texto */
-    text-decoration: none; /* Remove sublinhado do link */
+    color: #333; 
+    text-decoration: none; 
 }
 
 /* CSS para centralizar o botão quando expandido */
@@ -202,6 +202,7 @@ h1 {
     z-index: 99;
 }
 
+
 /*Botão de fullscrren*/
 .fullscreen-button i {
     position: fixed;
@@ -260,11 +261,11 @@ h1 {
 /*Coordenadas Longitude e latitude mouse*/
 .coordinate {
     position:absolute;
-    margin-left: 10px;
+    margin-left: 50px;
     border: 2px solid #000;
     padding: 3px 10px; /* Preenchimento superior e inferior de 3px e preenchimento esquerdo e direito de 10px */
     background-color: rgba(255, 255, 255, 0.8); /* Branco opaco com 80% de opacidade */
-    bottom: 5%;
+    bottom: 6%;
     border-radius: 0;
     text-align: end;
     font-size: 12px;
@@ -290,50 +291,4 @@ h1 {
 
 .leaflet-control-scale-label {
     color: #ffffff;
-}
-
-/* Estilo para o menu lateral */
-.menu-lateral {
-    width: 40px; /* Largura inicial*/
-    height: 100%;
-    position: fixed;
-    top: 154px;
-    right: 0; /* Posicionamento no lado direito */
-    background-color: rgb(2, 33, 79);
-    padding-top: 50px;
-    transition: width 0.1s; /* Transição suave da largura */
-    z-index: 9999;
-}
-
-/* Estilo para os botões do menu */
-.menu-lateral .fullscreen-button,
-.menu-lateral .print-map,
-.menu-lateral .custom-search-control,
-.menu-lateral .centermap {
-    visibility: hidden;
-    position: fixed;
-    right: 10px; /* Ajuste conforme necessário */
-    z-index: 9999; /* Valor alto para garantir que os ícones se sobreponham a outros elementos */
-}
-/* Estilo para os botões do menu quando o menu for expandido */
-.menu-lateral:hover .menu-lateral-button,
-.menu-lateral:hover .fullscreen-button,
-.menu-lateral:hover .print-map,
-.menu-lateral:hover .custom-search-control,
-.menu-lateral:hover .centermap {
-    visibility: visible; /* Torna os botões visíveis quando o menu é expandido */
-}
-
-/* Estilo para os botões do menu quando o menu for expandido */
-.menu-lateral:hover {
-    width: 60px; /* Largura expandida do menu */
-}
-
-/* Estilo para os botões do menu quando passar o mouse */
-.menu-lateral .fullscreen-button:hover,
-.menu-lateral .print-map:hover,
-.menu-lateral .custom-search-control:hover,
-.menu-lateral .centermap:hover {
-    visibility: visible;
-    background-color: #2c3e50; /* Cor de fundo ao passar o mouse */
 }
