@@ -8,7 +8,7 @@
     <title>Geolocalização de Bairros em Santana de Parnaíba</title>
 
     <!-- css file -->
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/Codigo/css/style.css">
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -49,26 +49,11 @@
 </head>
 
 <body>
+    <!--Cabeçalho-->
+    <div class="cabecalho">
+        <img src="../img/brasao_santana.png" alt="Brasão Santana de Parnaíba">
+    </div> 
 
-    <section class="buttons">
-        <!-- Sessão de criação dos botões que filtrarão mapa -->
-        <div class="menu-lateral" id="MenuLateral">
-            <div class="menu-lateral-button" onclick="toggleMenu()">
-                <i class="bi bi-list"></i>
-            </div>
-            
-            <div class="fullscreen-button" onclick="fullScreenview()" title="Tela cheia">
-                <i class="bi bi-arrows-fullscreen fullscreen-icon"></i> <!-- fullscreen button-->
-            </div>
-
-            <div class="print-map" title="Imprimir mapa">
-                <i class="bi bi-printer"></i> 
-            </div>
-
-            <div class="centermap" title="Centralizar mapa">
-                <i class="bi bi-align-center" id="centerMapButton"></i>
-            </div>
-        </div>
 
         <div class="custom-search-control"></div>
     </section>
@@ -82,20 +67,8 @@
     <h1> Portal Geo Parnaíba </h1>
     <div class="faixa-inferior"></div>
 
-    <!--botão html com camadas de base-->
-    <div class="menu-base">
-        <button class="menu-btn">Mapas Base</button>
-        <div class="menu-content">
-            <a href="#" onclick="toggleBaseLayer('Thunderforest_OpenCycleMap')">Thunderforest</a>
-            <a href="#" onclick="toggleBaseLayer('googleStreets')">Google Streets</a>
-            <a href="#" onclick="toggleBaseLayer('googleHybrid')">Google Hybrido</a>
-            <a href="#" onclick="toggleBaseLayer('googleSat')">Google Satelite</a>
-            <a href="#" onclick="toggleBaseLayer('osm')">OSM</a>
-            <a href="#" onclick="toggleBaseLayer('Stadia_AlidadeSmooth')">Stadia</a>
-        </div>
-    </div>
 
-    <!--botão html com camadas overlayers-->
+    <!--botão html com camadas para download-->
     <div class="dropdown">
         <button class="dropdown-btn">Download GeoJSON</button>
         <div class="dropdown-content">
@@ -115,7 +88,36 @@
         </div>
     </div>
 
-    <div id="mapid"></div>
+    <div class="container-page">
+
+        <nav>
+            <ul>
+                <section class="buttons-menu-lateral">  
+                <!-- Sessão de criação dos botões que filtrarão mapa -->
+                    <div class="menu-lateral" id="MenuLateral">
+                        <div class="menu-lateral-button" onclick="toggleMenu()">
+                        </div>
+                    
+                        <div class="fullscreen-button" onclick="fullScreenview()" title="Tela cheia">
+                            <i class="bi bi-arrows-fullscreen fullscreen-icon"></i> <!-- fullscreen button-->
+                        </div>
+            
+                        <div class="print-map" title="Imprimir mapa">
+                            <i class="bi bi-printer"></i> 
+                        </div>
+            
+                        <div class="centermap" title="Centralizar mapa">
+                            <i class="bi bi-align-center" id="centerMapButton"></i>
+                        </div>
+                    </div>
+                </section>  
+                <div id="mapid"></div>
+            </ul>
+        </nav>
+        
+
+    </div>
+    
 
     <!-- Div para exibir as coordenadas GeoJSON que serão criadas no leaflet Drawer -->
     <button id="copiageojson">Copiar GeoJson</button>
@@ -127,6 +129,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- coordenadas sob o mouse -->
 
     <!-- scripts das Camadas-->
+    <script src="../dataqgiz/Bairros.js"></script>
+    <script src="../dataqgiz/Energia.js"></script>
+    <script src="../dataqgiz/DensidadeDemografica.js"></script>
+
     <script src="../dataqgiz/limiteSantana.js"></script>
     <script src="../dataqgiz/massaDaguaStn.js"></script>
     <script src="../dataqgiz/cursoDaguaStn.js"></script>
@@ -135,21 +141,65 @@
     <script src="../dataqgiz/app15mCursoDagua.js"></script>
     <script src="../dataqgiz/curvasDeNivelStn.js"></script>
     <script src="../dataqgiz/municipiosVizinhosStn.js"></script>
+
     <script src="../dataqgiz/RiscoInundacao/InundacaoRiscoAlto.js"></script>
     <script src="../dataqgiz/RiscoInundacao/InundacaoRiscoModerado.js"></script>
     <script src="../dataqgiz/RiscoInundacao/InundacaoRiscoBaixo.js"></script>
     <script src="../dataqgiz/limitesmapaSTN.js"></script>
+
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoAlto.js"></script>
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoBaixo.js"></script>
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoNulo.js"></script>
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoMedio.js"></script>
     <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoMuitoAlto.js"></script>
+
     <script src="../dataqgiz/RiscoSolapamento/RiscoSolapamentoAlto.js"></script>
     <script src="../dataqgiz/RiscoSolapamento/RiscoSolapamentoMedio.js"></script>
     <script src="../dataqgiz/RiscoSolapamento/RiscoSolapamentoMuitoAlto.js"></script>
-    
+
+    <script src="../dataqgiz/Zoneamento/ZAR.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZDE-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZDE-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZEA.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZEIS.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZEM.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZPA-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZPA-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZPA-3.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZPE.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-3.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-4.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-5.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-6.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-7.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRMD-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRMD-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRMD-4.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRMD-5.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-4.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-5.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-6.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-8.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-9.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-10.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-11.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-3.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-4.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-5.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-6.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-7.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUPI-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUPI-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUS.js"></script>
+
     <script>
-        
+     
         // Carregue o arquivo GeoJSON
         var geojson = {
         "type": "FeatureCollection",
@@ -331,7 +381,6 @@
         });
 
         //INUNDAÇÃO
-
         var InundacaoRiscoAlto = L.geoJSON(IRiscoAltojs, {
             color: '#0039AB',
             weight: 3,
@@ -342,15 +391,15 @@
         var InundacaoRiscoModerado = L.geoJSON(IRiscoModeradojs, {
             color:'#074BD4',
             weight: 3,
-            fillColor: '#074BD4', // Define a cor de preenchimento
-            fillOpacity: 0.5 // Define a opacidade do preenchimento (opcional)
+            fillColor: '#074BD4', 
+            fillOpacity: 0.5 
         });
 
         var InundacaoRiscoBaixo = L.geoJSON(IRiscoBaixojs, {
-            color: '#0050F1',
+            color: '#6496FA',
             weight: 3,
-            fillColor: '#0050F1', // Define a cor de preenchimento
-            fillOpacity: 0.5 // Define a opacidade do preenchimento (opcional)
+            fillColor: '#6496FA', // Define a cor de preenchimento
+            fillOpacity: 0.5
         });
 
         //ESCORREGAMENTO
@@ -372,26 +421,25 @@
         var EscorregamentoRiscoMedio = L.geoJSON(r_escorregamentoMedio_js, {
             color:'#069C7A',
             weight: 3,
-            fillColor: '#069C7A', // Define a cor de preenchimento
+            fillColor: '#069C7A', 
             fillOpacity: 0.5
         });
 
         var EscorregamentoRiscoBaixo = L.geoJSON(r_escorregamentoBaixo_js, {
             color: '#19C69F',
             weight: 3,
-            fillColor: '#19C69F', // Define a cor de preenchimento
+            fillColor: '#19C69F', 
             fillOpacity: 0.5
         });
 
         var EscorregamentoRiscoNulo = L.geoJSON(r_escorregamentoNulo_js, {
             color: '#3BEEC6',
             weight: 3,
-            fillColor: '#3BEEC6', // Define a cor de preenchimento
+            fillColor: '#3BEEC6', 
             fillOpacity: 0.5
         });
 
         //SOLAPAMENTO
-
         var SolapamentoRiscoMuitoAlto = L.geoJSON(r_solapamentoMuitoAlto_js, {
             color: '#653901',
             weight: 3,
@@ -409,9 +457,55 @@
         var SolapamentoRiscoMedio = L.geoJSON(r_solapamentomedio_js, {
             color:'#BD6B04',
             weight: 3,
-            fillColor: '#BD6B04', // Define a cor de preenchimento
+            fillColor: '#BD6B04', 
             fillOpacity: 0.5
         });
+
+        //ZONEAMNETO
+        var zar = L.geoJSON(zar_js)
+        var zde1 = L.geoJSON(zde1_js)
+        var zde2 = L.geoJSON(zde2_js)
+        var zea = L.geoJSON(zea_js)
+        var zeis = L.geoJSON(zeis_js)
+        var zem = L.geoJSON(zem_js)
+        var zpa1 = L.geoJSON(zpa1_js)
+        var zpa2 = L.geoJSON(zpa2_js)
+        var zpa3 = L.geoJSON(zpa3_js)
+        var zpe = L.geoJSON(zpe_js)
+        var zrbd1 = L.geoJSON(zrbd1_js)
+        var zrbd2 = L.geoJSON(zrbd2_js)
+        var zrbd3 = L.geoJSON(zrbd3_js)
+        var zrbd4 = L.geoJSON(zrbd4_js)
+        var zrbd5 = L.geoJSON(zrbd5_js)
+        var zrbd6 = L.geoJSON(zrbd6_js)
+        var zrbd7 = L.geoJSON(zrbd7_js)
+        var zrmd1 = L.geoJSON(zrmd1_js)
+        var zrmd2 = L.geoJSON(zrmd2_js)
+        var zrmd4 = L.geoJSON(zrmd4_js)
+        var zrmd5 = L.geoJSON(zrmd5_js)
+        var zud1 = L.geoJSON(zud1_js)
+        var zud2 = L.geoJSON(zud2_js)
+        var zud4 = L.geoJSON(zud4_js)
+        var zud5 = L.geoJSON(zud5_js)
+        var zud6 = L.geoJSON(zud6_js)
+        var zud8 = L.geoJSON(zud8_js)
+        var zud9 = L.geoJSON(zud9_js)
+        var zud10 = L.geoJSON(zud10_js)
+        var zud11 = L.geoJSON(zud11_js)
+        var zum1 = L.geoJSON(zum1_js)
+        var zum2 = L.geoJSON(zum2_js)
+        var zum3 = L.geoJSON(zum3_js)
+        var zum4 = L.geoJSON(zum4_js)
+        var zum5 = L.geoJSON(zum5_js)
+        var zum6 = L.geoJSON(zum6_js)
+        var zum7 = L.geoJSON(zum7_js)
+        var zupi1 = L.geoJSON(zupi1_js)
+        var zupi2 = L.geoJSON(zupi2_js)
+        var zus = L.geoJSON(zus_js)
+
+        var bairros = L.geoJSON(bairros_js)
+        var densidadesdemografica = L.geoJSON(densidemo_js)
+        var energia = L.geoJSON(energia_js)
 
         //additional baselayers
         var additional_baselayers = {
@@ -429,6 +523,9 @@
                 "OSM": osm,
             },
             "Camadas": {
+                "Bairros": bairros,
+                "Energia": energia,
+                "Densidade Demografica": densidadesdemografica,
                 "Limite Municipal": limiteStn,
                 "Municípios vizinhos": municipiosVizinhosStna,
                 "Massa Dágua Stna": massadaguaStn,
@@ -454,6 +551,49 @@
                 "Risco Muito Alto": SolapamentoRiscoMuitoAlto,
                 "Risco Alto": SolapamentoRiscoAlto,
                 "Risco Moderado": SolapamentoRiscoMedio,
+            },
+            "Zoneamento": {
+                "ZAR": zar,
+                "ZDE1": zde1,
+                "ZDE2": zde2,
+                "ZEA": zea,
+                "ZEIS": zeis,
+                "ZEM": zem,
+                "ZPA1": zpa1,
+                "ZPA2": zpa2,
+                "ZPA3": zpa3,    
+                "ZPE": zpe,
+                "ZRBD1": zrbd1,
+                "ZRBD2": zrbd2,
+                "ZRBD3": zrbd3,
+                "ZRBD4": zrbd4,
+                "ZRBD5": zrbd5,
+                "ZRBD6": zrbd6,
+                "ZRBD7": zrbd7,
+                "ZRMD1": zrmd1,
+                "ZRMD2": zrmd2,
+                "ZRMD4": zrmd4,
+                "ZRMD5": zrmd5,
+                "ZUD1": zud1,
+                "ZUD2": zud2,
+                "ZUD4": zud4,
+                "ZUD5": zud5,
+                "ZUD6": zud6,
+                "ZUD8": zud8,
+                "ZUD9": zud9,
+                "ZUD10": zud10,
+                "ZUD11": zud11,
+                "ZUM1": zum1,
+                "ZUM2": zum2,
+                "ZUM3": zum3,
+                "ZUM4": zum4,
+                "ZUM5": zum5,
+                "ZUM6": zum6,
+                "ZUM7": zum7,
+                "ZUPI1": zupi1,
+                "ZUPI2": zupi2,
+                "ZUS": zus,
+
             }
             
         }
@@ -472,6 +612,7 @@
         
         ////////////////////////////////////////////////////////////
         ////////////////////Scale do mapa//////////////////////////
+        
         var scale = L.control.scale({ position: 'bottomleft' }).addTo(map);
 
         // Função para centralizar a escala no centro inferior
@@ -588,14 +729,6 @@
     })
 
         ////////////////////////////////////////////////////////////
-        ///////////////Botão Menu lateral////////////////////
-
-        function toggleMenu() {
-                var menuLateral = document.getElementById("menuLateral");
-                menuLateral.classList.toggle("active");
-            }
-
-        ////////////////////////////////////////////////////////////
         ///////////////Leaflet Drawer Polígonos////////////////////
 
         //Grupo de camadas para armazenar poligonos
@@ -678,6 +811,9 @@
             }, 3000); // Limpa a mensagem após 3 segundos
         });
 
+        ////////////////////////////////////////////////////////////
+        ///////////////////download camadas////////////////////////
+
         //função para download no de camadas formato geojson
         function downloadGeoJSON(overlayName) {
         var geoJSON;
@@ -697,6 +833,7 @@
             geoJSON = app15mCursodaguaStna.toGeoJSON();
         } else if (overlayName === 'curvasdeNivelStna') {
             geoJSON = curvasdeNivelStna.toGeoJSON();
+
         } else if (overlayName === 'InundacaoRiscoAlto') {
             geoJSON = InundacaoRiscoAlto.toGeoJSON();
         } else if (overlayName === 'InundacaoRiscoModerado') {
@@ -717,29 +854,6 @@
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
-    }
-
-    // Função para alternar entre as camadas base do mapa
-    function toggleBaseLayer(layer) {
-        // Remove todas as camadas do mapa
-        map.eachLayer(function (layer) {
-            map.removeLayer(layer);
-        });
-
-        // Adiciona a camada selecionada
-        if (layer === 'Thunderforest_OpenCycleMap') {
-            Thunderforest_OpenCycleMap.addTo(map);
-        } else if (layer === 'googleStreets') {
-            googleStreets.addTo(map);
-        } else if (layer === 'googleHybrid') {
-            googleHybrid.addTo(map);
-        } else if (layer === 'googleSat') {
-            googleSat.addTo(map);
-        } else if (layer === 'osm') {
-            osm.addTo(map);
-        } else if (layer === 'Stadia_AlidadeSmooth') {
-            Stadia_AlidadeSmooth.addTo(map);
-        }
     }
 
     </script>

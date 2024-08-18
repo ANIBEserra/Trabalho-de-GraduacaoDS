@@ -2,6 +2,7 @@
 #mapid{
     height: 550px;
     width: auto;
+    margin: auto;
     margin-left: 10px;
     margin-right: 50px;
     z-index: 0; /* Z-index menor para garantir que fique atrás */
@@ -60,67 +61,6 @@ h1 {
     position: relative;
     z-index: 1;
     top: -15px;
-}
-
-.menu-base {
-    position: relative; /* Mantém o posicionamento relativo para garantir que o conteúdo do dropdown seja posicionado corretamente */
-    display: inline-block;
-    margin-right: auto;
-    margin-left: 10px;
-    z-index: 9999; /* Ajustado para garantir que o botão fique sobreposto a outras camadas */
-}
-
-.menu-lateral-button {
-    position: fixed;
-    top: 160px; /* Ajuste conforme necessário */
-    right: 10px; /* Posiciona o ícone à direita */
-    cursor: pointer;
-    z-index: 9999; /* Valor alto para garantir que o ícone se sobreponha a outros elementos */
-    color: #ffffff;
-    background-color: rgb(2, 33, 79);
-    border: 1px solid rgb(2, 33, 79);
-    border-radius: 0;
-    font-size: 15px; /* Tamanho do ícone ajustado */
-    padding: 10px 15px;
-}
-/* Personalizar hover */
-.menu-lateral-button i:hover {
-    background-color: rgb(1, 19, 47); 
-}
-
-.menu-btn {
-    margin-top: 30px;
-    margin-left: 10px;
-    border: 1px solid rgb(2, 33, 79);
-    padding: 10px 20px;
-    background-color: rgb(2, 33, 79);
-    color:#ffffff;
-    cursor: pointer;
-    z-index: 9999;
-    position: absolute;
-}
-.menu-content {
-    margin-top: 30px;
-    margin-left: 10px;
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    max-height: 560px;
-    overflow-y: auto;
-    z-index: 9999;
-}
-.menu-content a{
-    color: black;
-    padding: 10px 15px;
-    text-decoration: none;
-    display: block;
-}
-.menu-base:hover .menu-content {
-    display: block;
-}
-.menu-content a:hover {
-    background-color:  #d5d4d4;
 }
 
 .dropdown {
@@ -182,7 +122,7 @@ h1 {
     border-radius: 0; /* Raio da borda */
     padding: 7px; /* Espaçamento interno */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
-    top: -1px;
+    top: 10px;
     right: 0;
 }
 
