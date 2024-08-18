@@ -246,33 +246,7 @@
         L.control.zoom({
             position: 'topleft'
     });
-    
-        //////////////////////////////////////////////////////////////////
-        //////////////////////Botão de opacidade/////////////////////////
 
-        // Função para ajustar a opacidade do mapa
-        function ajustarOpacidade(opacidade) {
-            document.querySelector('.leaflet-tile-pane').style.opacity = opacidade;
-        }
-
-        // Criando um controle de opacidade personalizado
-        var controleOpacidade = L.control({position: 'topright'});
-
-        controleOpacidade.onAdd = function (map) {
-            var div = L.DomUtil.create('div', 'controle-opacidade');
-            div.innerHTML = '<input type="range" min="0" max="1" step="0.1" value="0.7" class="slider-opacidade" style="width: 150px;">';
-            
-            // Adicionando um evento de mudança ao controle de opacidade
-            L.DomEvent.addListener(div, 'input', function(e) {
-                var novaOpacidade = e.target.value;
-                ajustarOpacidade(novaOpacidade);
-            });
-
-            return div;
-        };
-
-        controleOpacidade.addTo(map);
-        
         //////////////////////////////////////////////////////////////////
         ///////////////////////Barra de Pesquisa///////////////////////// 
 
