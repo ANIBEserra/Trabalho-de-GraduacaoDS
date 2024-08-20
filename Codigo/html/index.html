@@ -572,6 +572,50 @@
             
         }
 
+        //////////////////////////////////////////////////////////////////
+        //////////////////////Select Polygons////////////////////////////
+        var polygonsData = [zar, zde1, zde2, zea, zeis, zem, zpa1, zpa2, zpa3, 
+        zpe, zrbd1, zrbd2, zrbd3, zrbd4, zrbd5, zrbd6, zrbd7, 
+        zrmd1, zrmd2, zrmd4, zrmd5, zud1, zud2, zud4, zud5, zud6, zud8, zud9, zud10, zud11, 
+        zum1, zum2, zum3, zum4, zum5, zum6, zum7, zupi1, zupi2, zus]
+
+        // Variável para armazenar o polígono selecionado
+        var selectedPolygon = null;
+
+        // Adiciona o evento de clique para seleção/deseleção
+        zar.on('click', function(e) {
+            if (selectedPolygon === e.layer) {
+                // Se o polígono já está selecionado, deselecione-o
+                zar.eachLayer(function(layer) {
+                    layer.setStyle({
+                        color: 'blue'  // Cor padrão para deselecionado
+                    });
+                });
+                selectedPolygon = null;  // Limpa a seleção
+            } else {
+                // Se havia outro polígono selecionado, reseta seu estilo
+                if (selectedPolygon) {
+                    zar.eachLayer(function(layer) {
+                        layer.setStyle({
+                            color: 'blue'  // Cor padrão para deselecionado
+                        });
+                    });
+                }
+
+                // Seleciona o polígono atual
+                zar.eachLayer(function(layer) {
+                    layer.setStyle({
+                        color: 'red'  // Cor para polígono selecionado
+                    });
+                });
+                selectedPolygon = e.layer;  // Atualiza a seleção
+            }
+        });
+
+
+
+
+
         //modifica configurações padronizadas
         var options = {
             exclusiveGroups: ["Base Maps"], //grupo exclusivo, ou seja, apenas um pode ser selecionado por vez.
