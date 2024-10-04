@@ -43,6 +43,10 @@
     <!-- script groupedbaselayer-->
     <script src="../scripts/leaflet.groupedlayercontrol.js"></script>
 
+    <!-- Zipar arquivos-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+
+
     <style>
     </style>
 
@@ -93,11 +97,30 @@
     </div>
 
     <div class="dropdown">
+        <button class="dropdown-btn">Download GeoJSON Escorregamento</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="downloadGeoJSON('EscorregamentoRiscoMuitoAlto')">Escorregamento Risco Muito Alto</a>
+            <a href="#" onclick="downloadGeoJSON('EscorregamentoRiscoAlto')">Escorregamento Risco Alto</a>
+            <a href="#" onclick="downloadGeoJSON('EscorregamentoRiscoMedio')">Escorregamento Risco Médio</a>
+            <a href="#" onclick="downloadGeoJSON('EscorregamentoRiscoBaixo')">Escorregamento Risco Baixo</a>
+            <a href="#" onclick="downloadGeoJSON('EscorregamentoRiscoNulo')">Escorregamento Risco Nulo</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
         <button class="dropdown-btn">Download GeoJSON Solapamento</button>
         <div class="dropdown-content">
-            <a href="#" onclick="downloadGeoJSON('InundacaoRiscoAlto')">Inuncadação Risco Alto</a>
-            <a href="#" onclick="downloadGeoJSON('InundacaoRiscoModerado')">Inundação Risco Moderado</a>
-            <a href="#" onclick="downloadGeoJSON('InundacaoRiscoBaixo')">Inundação Risco Baixo</a>
+            <a href="#" onclick="downloadGeoJSON('SolapamentoRiscoMuitoAlto')">Solapamento Risco Muito Alto</a>
+            <a href="#" onclick="downloadGeoJSON('SolapamentoRiscoAlto')">Solapamento Risco Alto</a>
+            <a href="#" onclick="downloadGeoJSON('SolapamentoRiscoMedio')">Solapamento Risco Moderado</a>
+            
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropdown-btn">Download GeoJSON Zoneamento</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="downloadGeoJSON('polygonsData')">Download GeoJSON Zoneamento </a>
         </div>
     </div>
 
@@ -622,7 +645,7 @@
                     // Seleciona o polígono atual
                     polygon.eachLayer(function(layer) {
                         layer.setStyle({
-                            color: 'red'  // Cor para polígono selecionado
+                            color: 'pink'  // Cor para polígono selecionado
                         });
                     });
                     selectedPolygon = e.layer;  // Atualiza a seleção
@@ -635,11 +658,17 @@
             addClickEventToPolygon(polygon);
         });
 
+
         //modifica configurações padronizadas
         var options = {
             exclusiveGroups: ["Base Maps"], //grupo exclusivo, ou seja, apenas um pode ser selecionado por vez.
             groupCheckboxes: true, //seleciona todas as camadas do grupo.
         };
+
+        //////////////////////////////////////////////////////////////////
+        //////////////////////Select Bairros////////////////////////////
+
+
 
         //////////////////////////////////////////////////////////////////
         //////////////////////Layer de Controle//////////////////////////
@@ -891,15 +920,42 @@ function downloadGeoJSON(overlayName) {
         case 'InundacaoRiscoBaixo':
             geoJSON = InundacaoRiscoBaixo?.toGeoJSON();
             break;
-        case 'areaEscorregamento':
-            geoJSON = areaEscorregamento?.toGeoJSON();
+        case 'EscorregamentoRiscoMuitoAlto':
+            geoJSON = EscorregamentoRiscoMuitoAlto?.toGeoJSON();
             break;
-        case 'areaSalopamento':
-            geoJSON = areaSalopamento?.toGeoJSON();
+        case 'EscorregamentoRiscoAlto':
+            geoJSON = EscorregamentoRiscoAlto?.toGeoJSON();
             break;
+        case 'EscorregamentoRiscoMedio':
+            geoJSON = EscorregamentoRiscoMedio?.toGeoJSON();
+            break;
+        case 'EscorregamentoRiscoBaixo':
+            geoJSON = EscorregamentoRiscoBaixo?.toGeoJSON();
+            break;
+        case 'EscorregamentoRiscoNulo':
+            geoJSON = EscorregamentoRiscoNulo?.toGeoJSON();
+            break;
+
+        //SOLAPAMENTO
+        case 'SolapamentoRiscoMuitoAlto':
+            geoJSON = SolapamentoRiscoMuitoAlto?.toGeoJSON();
+            break;
+        case 'SolapamentoRiscoAlto':
+            geoJSON = SolapamentoRiscoAlto?.toGeoJSON();
+            break;
+        case 'SolapamentoRiscoMedio':
+            geoJSON = SolapamentoRiscoMedio?.toGeoJSON();
+            break;
+
+        //ZONEAMENTO
+        case 'polygonsData':
+            downloadZoneamentoZip(polygonsData); // Chama a função para download em zip
+            return;
+
         default:
             console.error('Camada não encontrada:', overlayName);
             return;
+        
     }
 
     if (!geoJSON) {
@@ -923,6 +979,76 @@ function downloadGeoJSON(overlayName) {
     }, 100);
 }
 
+const polygonsDataMap = {
+    'zar': zar,
+    'zde1': zde1,
+    'zde2': zde2,
+    'zea': zea,
+    'zeis': zeis,
+    'zem': zem,
+    'zpa1': zpa1,
+    'zpa2': zpa2,
+    'zpa3': zpa3,
+    'zpe': zpe,
+    'zrbd1': zrbd1,
+    'zrbd2': zrbd2,
+    'zrbd3': zrbd3,
+    'zrbd4': zrbd4,
+    'zrbd5': zrbd5,
+    'zrbd6': zrbd6,
+    'zrbd7': zrbd7,
+    'zrmd1': zrmd1,
+    'zrmd2': zrmd2,
+    'zrmd4': zrmd4,
+    'zrmd5': zrmd5,
+    'zud1': zud1,
+    'zud2': zud2,
+    'zud4': zud4,
+    'zud5': zud5,
+    'zud6': zud6,
+    'zud8': zud8,
+    'zud9': zud9,
+    'zud10': zud10,
+    'zud11': zud11,
+    'zum1': zum1,
+    'zum2': zum2,
+    'zum3': zum3,
+    'zum4': zum4,
+    'zum5': zum5,
+    'zum6': zum6,
+    'zum7': zum7,
+    'zupi1': zupi1,
+    'zupi2': zupi2,
+    'zus': zus
+};
+
+function downloadZoneamentoZip(polygonsDataMap) {
+    const zip = new JSZip();
+
+    // Adiciona as camadas ao zip, usando os nomes das variáveis como nomes dos arquivos
+    for (const [variableName, layer] of Object.entries(polygonsDataMap)) {
+        if (layer && typeof layer.toGeoJSON === 'function') {
+            const geoJSON = layer.toGeoJSON();
+            zip.file(variableName + ".geojson", JSON.stringify(geoJSON));
+        }
+    }
+
+    // Gera o arquivo zip e inicia o download
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+        const a = document.createElement('a');
+        const url = URL.createObjectURL(content);
+        a.href = url;
+        a.download = "zoneamento_layers.zip";
+        document.body.appendChild(a);
+        a.click();
+
+        // Revoga o URL de forma assíncrona
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }, 100);
+    });
+}
 
     </script>
 
