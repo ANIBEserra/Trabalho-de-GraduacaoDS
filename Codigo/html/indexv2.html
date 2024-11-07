@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Geolocalização de Bairros em Santana de Parnaíba</title>
+
+    <!-- css file -->
+    <link rel="stylesheet" href="../css/style.css
+    ">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/> 
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script> 
+
+    <!-- Leaflet Grouped Layer Control CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css" />
+    <!-- Leaflet Grouped Layer Control js -->
+    <script src="https://unpkg.com/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js"></script>  
+
+    <!-- Geocoder-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script> 
+
+   <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
+    <!-- Drawer Plugin  Leaflet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Leaflet Easy Button -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-easybutton/2.4.0/easy-button.js"></script>
+
+    <!-- script groupedbaselayer-->
+    <script src="../scripts/leaflet.groupedlayercontrol.js"></script>
+
+    <style>
+    </style>
+
+</head>
+
+<body>
+    <!--Cabeçalho-->
+    <div class="cabecalho">
+        <img src="../img/brasao_santana.png" alt="Brasão Santana de Parnaíba">
+    </div> 
+
+        <div class="custom-search-control"></div>
+    </section> 
+
+    <!--Cabeçalho-->
+    <div class="cabecalho">
+        <img src="../img/brasao_santana.png" alt="Brasão Santana de Parnaíba">
+    </div> 
+
+    <div class="faixa-superior"></div>
+    <h1> Portal Geo Parnaíba </h1>
+    <div class="faixa-inferior"></div>
+
+
+    <!--botão html com camadas para download-->
+    <div class="dropdown">
+        <button class="dropdown-btn">Download GeoJSON Camadas</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="downloadGeoJSON('limiteStn')">Limite Municipio</a>
+            <a href="#" onclick="downloadGeoJSON('municipiosVizinhosStna')">Municípios vizinhos</a>
+            <a href="#" onclick="downloadGeoJSON('massadaguaStn')">Massa Dágua Stna</a>
+            <a href="#" onclick="downloadGeoJSON('cursodaguaStn')">Curso Dágua Stna</a>
+            <a href="#" onclick="downloadGeoJSON('nascentesdaguaStna')">Nascentes Dágua Stna</a>
+            <a href="#" onclick="downloadGeoJSON('app50mNascentesStna')">App 50m Nascentes Stna</a>
+            <a href="#" onclick="downloadGeoJSON('app15mCursodaguaStna')">App 15m Curso Dagua Stna</a>
+            <a href="#" onclick="downloadGeoJSON('curvasdeNivelStna')">Curvas de Nível Stna</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropdown-btn">Download GeoJSON Inundação</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="downloadGeoJSON('InundacaoRiscoAlto')">Inuncadação Risco Alto</a>
+            <a href="#" onclick="downloadGeoJSON('InundacaoRiscoModerado')">Inundação Risco Moderado</a>
+            <a href="#" onclick="downloadGeoJSON('InundacaoRiscoBaixo')">Inundação Risco Baixo</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropdown-btn">Download GeoJSON Escorregamento</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="downloadGeoJSON('EscorregamentoRiscoMuitoAlto')">Escorregamento Risco Muito Alto</a>
+            <a href="#" onclick="downloadGeoJSON('EscorregamentoRiscoAlto')">Escorregamento Risco Alto</a>
+            <a href="#" onclick="downloadGeoJSON('EscorregamentoRiscoMedio')">Escorregamento Risco Médio</a>
+            <a href="#" onclick="downloadGeoJSON('EscorregamentoRiscoBaixo')">Escorregamento Risco Baixo</a>
+            <a href="#" onclick="downloadGeoJSON('EscorregamentoRiscoNulo')">Escorregamento Risco Nulo</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropdown-btn">Download GeoJSON Solapamento</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="downloadGeoJSON('SolapamentoRiscoMuitoAlto')">Solapamento Risco Muito Alto</a>
+            <a href="#" onclick="downloadGeoJSON('SolapamentoRiscoAlto')">Solapamento Risco Alto</a>
+            <a href="#" onclick="downloadGeoJSON('SolapamentoRiscoMedio')">Solapamento Risco Moderado</a>
+            
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropdown-btn">Download GeoJSON Zoneamento</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="downloadGeoJSON('polygonsData')">Download GeoJSON Zoneamento </a>
+        </div>
+    </div>
+
+    <div class="container-page">
+
+        <nav>
+            <ul>
+                <section class="buttons-menu-lateral">  
+                <!-- Sessão de criação dos botões que filtrarão mapa -->
+
+                        <div class="fullscreen-button" onclick="fullScreenview()" title="Tela cheia">
+                            <i class="bi bi-arrows-fullscreen fullscreen-icon"></i> <!-- fullscreen button-->
+                        </div>
+            
+                        <div class="print-map" title="Imprimir mapa">
+                            <i class="bi bi-printer"></i> 
+                        </div>
+            
+                        <div class="centermap" title="Centralizar mapa">
+                            <i class="bi bi-align-center" id="centerMapButton"></i>
+                        </div>
+                    </div>
+                </section>  
+                <div id="mapid"></div>
+            </ul>
+        </nav>
+
+    </div>
+
+    <!-- jQuery Para coordenadas ao passar mouse -->
+    <div class="coordinate"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- coordenadas sob o mouse -->
+
+    <!-- scripts das Camadas-->
+    <script src="../dataqgiz/Bairros.js"></script>
+    <script src="../dataqgiz/Energia.js"></script>
+    <script src="../dataqgiz/DensidadeDemografica.js"></script>
+
+    <script src="../dataqgiz/limiteSantana.js"></script>
+    <script src="../dataqgiz/massaDaguaStn.js"></script>
+    <script src="../dataqgiz/cursoDaguaStn.js"></script>
+    <script src="../dataqgiz/nascentesDagua.js"></script>
+    <script src="../dataqgiz/app5omNascentes.js"></script>
+    <script src="../dataqgiz/app15mCursoDagua.js"></script>
+    <script src="../dataqgiz/curvasDeNivelStn.js"></script>
+    <script src="../dataqgiz/municipiosVizinhosStn.js"></script>
+
+    <script src="../dataqgiz/RiscoInundacao/InundacaoRiscoAlto.js"></script>
+    <script src="../dataqgiz/RiscoInundacao/InundacaoRiscoModerado.js"></script>
+    <script src="../dataqgiz/RiscoInundacao/InundacaoRiscoBaixo.js"></script>
+    <script src="../dataqgiz/limitesmapaSTN.js"></script>
+
+    <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoAlto.js"></script>
+    <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoBaixo.js"></script>
+    <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoNulo.js"></script>
+    <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoMedio.js"></script>
+    <script src="../dataqgiz/RiscoEscorregamento/RiscoEscorregamentoMuitoAlto.js"></script>
+
+    <script src="../dataqgiz/RiscoSolapamento/RiscoSolapamentoAlto.js"></script>
+    <script src="../dataqgiz/RiscoSolapamento/RiscoSolapamentoMedio.js"></script>
+    <script src="../dataqgiz/RiscoSolapamento/RiscoSolapamentoMuitoAlto.js"></script>
+
+    <script src="../dataqgiz/Zoneamento/ZAR.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZDE-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZDE-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZEA.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZEIS.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZEM.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZPA-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZPA-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZPA-3.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZPE.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-3.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-4.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-5.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-6.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRBD-7.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRMD-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRMD-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRMD-4.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZRMD-5.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-4.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-5.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-6.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-8.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-9.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-10.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUD-11.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-3.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-4.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-5.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-6.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUM-7.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUPI-1.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUPI-2.js"></script>
+    <script src="../dataqgiz/Zoneamento/ZUS.js"></script>
+
+    <script>
+
+        // Carregue o arquivo GeoJSON
+        var geojson = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                [
+                    [-47.145081, -23.523739],
+                    [-47.145081, -23.337882],
+                    [-46.624947, -23.337882],
+                    [-46.624947, -23.523739],
+                    [-47.145081, -23.523739]
+                ]
+                ]
+            }
+            }
+        ]
+        };
+
+        // Extrair as coordenadas do polígono
+        var coordinates = geojson.features[0].geometry.coordinates[0];
+
+        // Converter as coordenadas em objetos LatLng
+        var latLngs = coordinates.map(function(coord) {
+        return L.latLng(coord[1], coord[0]);
+        });
+
+        // Criar um objeto L.latLngBounds com base nas coordenadas
+        var bounds = L.latLngBounds(latLngs);
+
+        //cria mapa
+        var map = L.map('mapid', {
+            minZoom: 12,
+            maxZoom: 20,
+            center: [-23.4431, -46.9207],
+            maxBounds: bounds, 
+    });
+        map.setView([-23.4431, -46.9207], 7); // Define a visualização do mapa com um zoom mais próximo após a inicialização
+
+        L.control.zoom({
+            position: 'topleft'
+    });
+
+    //////////////////////////////////////////////////////////////////
+    ///////////////////////Barra de Pesquisa///////////////////////// 
+
+    var geocoder = L.Control.geocoder({
+            position: 'topright',
+
+        }).addTo(map);
+
+        // Espera pelo evento de inicialização do mapa
+        map.whenReady(function() {
+
+            // Seleciona o elemento do controle de busca pela classe HTML
+            var searchControl = document.querySelector('.leaflet-control-geocoder');
+
+            // Define um evento de passagem do mouse para expandir o controle de busca
+            searchControl.addEventListener('mouseenter', function() {
+                this.classList.add('expanded'); // Adiciona a classe 'expanded' para expandir o botão
+            });
+
+            // Define um evento de retirada do mouse para recolher o controle de busca
+            searchControl.addEventListener('mouseleave', function() {
+                this.classList.remove('expanded'); // Remove a classe 'expanded' para recolher o botão
+            });
+        });
+
+        //OSM layer
+        var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', 
+        opacity: 0.8,
+    });
+
+        var Thunderforest_OpenCycleMap = L.tileLayer('https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey={apikey}', {
+        attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        apikey: 'd25bc170e1b54aaf8174e8901450c4f5',
+        maxZoom: 22
+    });
+
+        //tilelayers google
+        googleStreets = L.tileLayer('https://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3'],
+        layers: [],
+    });
+
+        googleSat = L.tileLayer('https://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    });
+
+        googleHybrid = L.tileLayer('https://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    });
+
+        var Stadia_AlidadeSmooth = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
+        minZoom: 0,
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        ext: 'png'
+    }).addTo(map);
+
+        var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
+        minZoom: 0,
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        ext: 'png'
+    });
+
+    //////////////////////////////////////////////////////////////////
+    //////////////////////GeoJson das Camadas////////////////////////
+
+    var limiteStn = L.geoJSON(limiteSantana, {
+            color: '#0D0005', 
+            weight: 3, 
+            fillOpacity: 0.10,
+        }).addTo(map)//.bindTooltip('Santana de Parnaíba', {permanet: true}).openTooltip();
+
+        var massadaguaStn = L.geoJSON(massadaguajs, {
+            color: '#10C1FF',
+            weight: 3,
+
+    });
+
+        var cursodaguaStn = L.geoJSON(cursoDaguajs);
+
+        var nascentesdaguaStna = L.geoJSON(nascentesDaguajs);
+
+        var app50mNascentesStna = L.geoJSON(app50nascjs, {
+            color: '#0374C0',
+            weight: 3,
+        });
+
+        var app15mCursodaguaStna = L.geoJSON(app15mCursoDjs, {
+            color: '#035389',
+            weight: 3,
+        });
+
+        var curvasdeNivelStna = L.geoJSON(curvasdeNiveljs, {
+            color:'#FF0000',
+            weight: 3,
+        });
+
+        var municipiosVizinhosStna = L.geoJSON(municipiosVizinhosjs, {
+            color: '#000000', 
+            weight: 3, 
+        });
+
+         //INUNDAÇÃO
+         var InundacaoRiscoAlto = L.geoJSON(IRiscoAltojs, {
+            color: '#0039AB',
+            weight: 3,
+            fillColor: '#0039AB',
+            fillOpacity: 0.5,
+        });
+
+        var InundacaoRiscoModerado = L.geoJSON(IRiscoModeradojs, {
+            color:'#074BD4',
+            weight: 3,
+            fillColor: '#074BD4', 
+            fillOpacity: 0.5 
+        });
+
+        var InundacaoRiscoBaixo = L.geoJSON(IRiscoBaixojs, {
+            color: '#6496FA',
+            weight: 3,
+            fillColor: '#6496FA', // Define a cor de preenchimento
+            fillOpacity: 0.5
+        });
+
+        //ESCORREGAMENTO
+
+        var EscorregamentoRiscoMuitoAlto = L.geoJSON(r_escorregamentoMuitoAlto_js, {
+            color: '#00513F',
+            weight: 3,
+            fillColor: '#00513F',
+            fillOpacity: 0.5, 
+        });
+
+        var EscorregamentoRiscoAlto = L.geoJSON(r_escorregamentoAlto_js, {
+            color: '#08785F',
+            weight: 3,
+            fillColor: '#08785F',
+            fillOpacity: 0.5,   
+        });
+
+        var EscorregamentoRiscoMedio = L.geoJSON(r_escorregamentoMedio_js, {
+            color:'#069C7A',
+            weight: 3,
+            fillColor: '#069C7A', 
+            fillOpacity: 0.5
+        });
+
+        var EscorregamentoRiscoBaixo = L.geoJSON(r_escorregamentoBaixo_js, {
+            color: '#19C69F',
+            weight: 3,
+            fillColor: '#19C69F', 
+            fillOpacity: 0.5
+        });
+
+        var EscorregamentoRiscoNulo = L.geoJSON(r_escorregamentoNulo_js, {
+            color: '#3BEEC6',
+            weight: 3,
+            fillColor: '#3BEEC6', 
+            fillOpacity: 0.5
+        });
+
+        //SOLAPAMENTO
+        var SolapamentoRiscoMuitoAlto = L.geoJSON(r_solapamentoMuitoAlto_js, {
+            color: '#653901',
+            weight: 3,
+            fillColor: '#653901',
+            fillOpacity: 0.5, 
+        });
+
+        var SolapamentoRiscoAlto = L.geoJSON(r_SolapamentoAlto_js, {
+            color: '#905000',
+            weight: 3,
+            fillColor: '#905000',
+            fillOpacity: 0.5, 
+        });
+
+        var SolapamentoRiscoMedio = L.geoJSON(r_solapamentomedio_js, {
+            color:'#BD6B04',
+            weight: 3,
+            fillColor: '#BD6B04', 
+            fillOpacity: 0.5
+        });
+
+         //ZONEAMNETO
+        var zar = L.geoJSON(zar_js);
+        var zde1 = L.geoJSON(zde1_js);
+        var zde2 = L.geoJSON(zde2_js);
+        var zea = L.geoJSON(zea_js);
+        var zeis = L.geoJSON(zeis_js);
+        var zem = L.geoJSON(zem_js);
+        var zpa1 = L.geoJSON(zpa1_js);
+        var zpa2 = L.geoJSON(zpa2_js);
+        var zpa3 = L.geoJSON(zpa3_js);
+        var zpe = L.geoJSON(zpe_js);
+        var zrbd1 = L.geoJSON(zrbd1_js);
+        var zrbd2 = L.geoJSON(zrbd2_js);
+        var zrbd3 = L.geoJSON(zrbd3_js);
+        var zrbd4 = L.geoJSON(zrbd4_js);
+        var zrbd5 = L.geoJSON(zrbd5_js);
+        var zrbd6 = L.geoJSON(zrbd6_js);
+        var zrbd7 = L.geoJSON(zrbd7_js);
+        var zrmd1 = L.geoJSON(zrmd1_js);
+        var zrmd2 = L.geoJSON(zrmd2_js);
+        var zrmd4 = L.geoJSON(zrmd4_js);
+        var zrmd5 = L.geoJSON(zrmd5_js);
+        var zud1 = L.geoJSON(zud1_js);
+        var zud2 = L.geoJSON(zud2_js);
+        var zud4 = L.geoJSON(zud4_js);
+        var zud5 = L.geoJSON(zud5_js);
+        var zud6 = L.geoJSON(zud6_js);
+        var zud8 = L.geoJSON(zud8_js);
+        var zud9 = L.geoJSON(zud9_js);
+        var zud10 = L.geoJSON(zud10_js);
+        var zud11 = L.geoJSON(zud11_js);
+        var zum1 = L.geoJSON(zum1_js);
+        var zum2 = L.geoJSON(zum2_js);
+        var zum3 = L.geoJSON(zum3_js);
+        var zum4 = L.geoJSON(zum4_js);
+        var zum5 = L.geoJSON(zum5_js);
+        var zum6 = L.geoJSON(zum6_js);
+        var zum7 = L.geoJSON(zum7_js);
+        var zupi1 = L.geoJSON(zupi1_js);
+        var zupi2 = L.geoJSON(zupi2_js);
+        var zus = L.geoJSON(zus_js);
+
+    //Layer Control
+    var baselayers = {
+            "Base Maps": {
+                "Stadia": Stadia_AlidadeSmooth,
+                "Google Maps": googleStreets,
+                "Satellite Streets": googleHybrid,
+                "Satellite": googleSat,
+                "OSM": osm,
+            },
+            "Camadas": {
+                "Limite Municipal": limiteStn,
+                "Municípios vizinhos": municipiosVizinhosStna,
+                "Massa Dágua Stna": massadaguaStn,
+                "Curso Dágua Stna": cursodaguaStn,
+                "Nascentes Dágua Stna": nascentesdaguaStna,
+                "App 50m Nascentes Stna": app50mNascentesStna,
+                "App 15m Curso Dagua Stna": app15mCursodaguaStna,
+                "Curvas de Nível Stna": curvasdeNivelStna,
+            },
+            "Risco de Inundação": {
+                "Inundação Risco Baixo": InundacaoRiscoBaixo,
+                "Inundação Risco Moderado": InundacaoRiscoModerado,
+                "Inuncadação Risco Alto": InundacaoRiscoAlto,
+            },
+            "Áreas de Escorregamento": {
+                "Risco Muito Alto": EscorregamentoRiscoMuitoAlto,
+                "Risco Alto": EscorregamentoRiscoAlto,
+                "Risco Moderado": EscorregamentoRiscoMedio,
+                "Risco Baixo": EscorregamentoRiscoBaixo,
+                "Risco Nulo": EscorregamentoRiscoNulo,
+            },
+            "Áreas de Solapamento": {
+                "Risco Muito Alto": SolapamentoRiscoMuitoAlto,
+                "Risco Alto": SolapamentoRiscoAlto,
+                "Risco Moderado": SolapamentoRiscoMedio,
+            },
+            "Zoneamento": {
+                "ZAR": zar,
+                "ZDE1": zde1,
+                "ZDE2": zde2,
+                "ZEA": zea,
+                "ZEIS": zeis,
+                "ZEM": zem,
+                "ZPA1": zpa1,
+                "ZPA2": zpa2,
+                "ZPA3": zpa3,    
+                "ZPE": zpe,
+                "ZRBD1": zrbd1,
+                "ZRBD2": zrbd2,
+                "ZRBD3": zrbd3,
+                "ZRBD4": zrbd4,
+                "ZRBD5": zrbd5,
+                "ZRBD6": zrbd6,
+                "ZRBD7": zrbd7,
+                "ZRMD1": zrmd1,
+                "ZRMD2": zrmd2,
+                "ZRMD4": zrmd4,
+                "ZRMD5": zrmd5,
+                "ZUD1": zud1,
+                "ZUD2": zud2,
+                "ZUD4": zud4,
+                "ZUD5": zud5,
+                "ZUD6": zud6,
+                "ZUD8": zud8,
+                "ZUD9": zud9,
+                "ZUD10": zud10,
+                "ZUD11": zud11,
+                "ZUM1": zum1,
+                "ZUM2": zum2,
+                "ZUM3": zum3,
+                "ZUM4": zum4,
+                "ZUM5": zum5,
+                "ZUM6": zum6,
+                "ZUM7": zum7,
+                "ZUPI1": zupi1,
+                "ZUPI2": zupi2,
+                "ZUS": zus
+            }
+    }
+
+    //////////////////////////////////////////////////////////////////
+    ////////////////////////Layer de Controle////////////////////////
+
+    //modifica configurações padronizadas
+    var options = {
+            exclusiveGroups: ["Base Maps"], //grupo exclusivo, ou seja, apenas um pode ser selecionado por vez.
+            groupCheckboxes: true, //seleciona todas as camadas do grupo.
+        };
+
+     // Crie o controle de camadas agrupadas
+     var controle = L.control.groupedLayers(null, baselayers, options, {position: 'topright'}).addTo(map);
+
+    ////////////////////////////////////////////////////////////
+    ////////////////////Scale do mapa//////////////////////////
+        
+    var scale = L.control.scale({ position: 'bottomleft' }).addTo(map);
+
+    // Função para centralizar a escala no centro inferior
+    function centerScaleControl() {
+        var mapWidth = map.getSize().x;
+        var controlWidth = document.querySelector('.leaflet-control-scale').offsetWidth;
+        var offset = (mapWidth - controlWidth) / 2;
+            
+        // Define a largura desejada para a escala
+        var desiredWidth = 50; // Ajuste conforme necessário
+
+        // Aplica o deslocamento horizontal ao estilo do controle de escala
+        document.querySelector('.leaflet-control-scale').style.left = offset + 'px';
+        }
+
+        // Chame a função quando o mapa for inicializado e redimensionado
+        map.on('resize', centerScaleControl);
+        map.whenReady(centerScaleControl);    
+
+    ////////////////////////////////////////////////////////////
+    /////////////////full screen map view//////////////////////
+
+    window.addEventListener('scroll', function() {
+    var button = document.querySelector('.fullscreen-button');
+    if (window.scrollY > 0) {
+        button.style.display = 'none'; // Esconde o botão quando a página é rolada para baixo
+    } else {
+        button.style.display = 'block'; // Mostra o botão quando a página está no topo
+    }
+    });
+
+    var mapId = document.getElementById('mapid')
+    function fullScreenview() {
+        mapId.requestFullscreen();
+    }
+    
+    ////////////////////////////////////////////////////////////
+    //////////////////Centralizar mapa View////////////////////
+
+    // Event listener for center map button
+    document.getElementById("centerMapButton").addEventListener("click", function() {
+        // Define a posição inicial do mapa (por exemplo, latitude e longitude)
+        var initialPosition = [-23.4431, -46.9207];
+            
+        // Centraliza o mapa na posição inicial com um determinado zoom
+        map.setView(initialPosition, 7);
+    });
+    
+    ////////////////////////////////////////////////////////////
+    //////////////Configura Barras de rolagem//////////////////
+        
+    var mapElement = document.getElementById('mapid');
+    // Adiciona um ouvinte de evento para detectar quando o cursor do mouse entra no mapa
+    mapElement.addEventListener('mouseenter', function() {
+        // Quando o cursor do mouse entra no mapa, desativamos a rolagem da página
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Adiciona um ouvinte de evento para detectar quando o cursor do mouse sai do mapa
+    mapElement.addEventListener('mouseleave', function() {
+    // Quando o cursor do mouse sai do mapa, reativamos a rolagem da página
+    document.body.style.overflow = 'auto';
+    });
+
+    ////////////////////////////////////////////////////////////
+    ///////////////Configura Coordenadas Mouse/////////////////
+
+    //Transforma coordenadas de decimal para minutos e segundos
+    function decimalParaDMS(decimal) {
+    var graus = Math.floor(decimal);
+    var minutosDecimal = (decimal - graus) * 60;
+    var minutos = Math.floor(minutosDecimal);
+    var segundos = (minutosDecimal - minutos) * 60;
+
+    return {
+        graus: Math.abs(graus),
+        minutos: minutos,
+        segundos: segundos
+        };
+    }
+
+    //Transforma coordenadas de decimal para graus
+    function formatarDMS(coordenada) {
+        var direcao = coordenada >= 0 ? 'N' : 'S';
+        coordenada = Math.abs(coordenada);
+        return coordenada + "°";
+    }
+
+    //localiza coordenadas do mouse
+    var latlngCoor = map.on('mousemove', function(e) {
+        var latitudeDMS = decimalParaDMS(e.latlng.lat);
+        var longitudeDMS = decimalParaDMS(e.latlng.lng);
+            
+        var latitudeFormatada = formatarDMS(latitudeDMS.graus) + " " + latitudeDMS.minutos + "' " + latitudeDMS.segundos.toFixed(2) + "\" N";
+        var longitudeFormatada = formatarDMS(longitudeDMS.graus) + " " + longitudeDMS.minutos + "' " + longitudeDMS.segundos.toFixed(2) + "\" W";
+            
+        $('.coordinate').html(`Lat: ${latitudeFormatada} Lng: ${longitudeFormatada}`);
+    });
+
+    ////////////////////////////////////////////////////////////
+    ////////////////////////Map Print//////////////////////////
+
+    window.addEventListener('scroll', function() {
+    var printButton = document.querySelector('.print-map');
+    if (window.scrollY > 0) {
+        printButton.style.top = (20 + window.scrollY) + 'px'; // Ajusta a posição ao rolar; // Muda a posição para fixa quando a página é rolada para baixo
+    } else {
+        printButton.style.top = '20px'; // Retorna à inicial quando a página está no topo
+    }
+    });
+
+    $('.print-map').click(function () {
+        window.print();
+    });
+
+    ////////////////////////////////////////////////////////////
+    ///////////////Leaflet Drawer Polígonos////////////////////
+
+    
+</script>
