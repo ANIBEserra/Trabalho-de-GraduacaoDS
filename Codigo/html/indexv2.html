@@ -33,9 +33,11 @@
    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 
-    <!-- Drawer Plugin  Leaflet -->
+    <!-- Drawer Plugin  Leaflet
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -44,7 +46,6 @@
 
     <!-- script groupedbaselayer-->
     <script src="../scripts/leaflet.groupedlayercontrol.js"></script>
-
     <style>
     </style>
 
@@ -234,11 +235,11 @@
                 "type": "Polygon",
                 "coordinates": [
                 [
-                    [-47.145081, -23.523739],
-                    [-47.145081, -23.337882],
-                    [-46.624947, -23.337882],
-                    [-46.624947, -23.523739],
-                    [-47.145081, -23.523739]
+                        [-47.145081, -23.523739],
+                        [-47.145081, -23.337882],
+                        [-46.624947, -23.337882],
+                        [-46.624947, -23.523739],
+                        [-47.145081, -23.523739]
                 ]
                 ]
             }
@@ -259,7 +260,7 @@
 
         //cria mapa
         var map = L.map('mapid', {
-            minZoom: 12,
+            minZoom: 11.5,
             maxZoom: 20,
             center: [-23.4431, -46.9207],
             maxBounds: bounds, 
@@ -269,6 +270,7 @@
         L.control.zoom({
             position: 'topleft'
     });
+
 
     //////////////////////////////////////////////////////////////////
     ///////////////////////Barra de Pesquisa///////////////////////// 
@@ -458,47 +460,124 @@
             fillOpacity: 0.5
         });
 
-         //ZONEAMNETO
-        var zar = L.geoJSON(zar_js);
-        var zde1 = L.geoJSON(zde1_js);
-        var zde2 = L.geoJSON(zde2_js);
-        var zea = L.geoJSON(zea_js);
-        var zeis = L.geoJSON(zeis_js);
-        var zem = L.geoJSON(zem_js);
-        var zpa1 = L.geoJSON(zpa1_js);
-        var zpa2 = L.geoJSON(zpa2_js);
-        var zpa3 = L.geoJSON(zpa3_js);
-        var zpe = L.geoJSON(zpe_js);
-        var zrbd1 = L.geoJSON(zrbd1_js);
-        var zrbd2 = L.geoJSON(zrbd2_js);
-        var zrbd3 = L.geoJSON(zrbd3_js);
-        var zrbd4 = L.geoJSON(zrbd4_js);
-        var zrbd5 = L.geoJSON(zrbd5_js);
-        var zrbd6 = L.geoJSON(zrbd6_js);
-        var zrbd7 = L.geoJSON(zrbd7_js);
-        var zrmd1 = L.geoJSON(zrmd1_js);
-        var zrmd2 = L.geoJSON(zrmd2_js);
-        var zrmd4 = L.geoJSON(zrmd4_js);
-        var zrmd5 = L.geoJSON(zrmd5_js);
-        var zud1 = L.geoJSON(zud1_js);
-        var zud2 = L.geoJSON(zud2_js);
-        var zud4 = L.geoJSON(zud4_js);
-        var zud5 = L.geoJSON(zud5_js);
-        var zud6 = L.geoJSON(zud6_js);
-        var zud8 = L.geoJSON(zud8_js);
-        var zud9 = L.geoJSON(zud9_js);
-        var zud10 = L.geoJSON(zud10_js);
-        var zud11 = L.geoJSON(zud11_js);
-        var zum1 = L.geoJSON(zum1_js);
-        var zum2 = L.geoJSON(zum2_js);
-        var zum3 = L.geoJSON(zum3_js);
-        var zum4 = L.geoJSON(zum4_js);
-        var zum5 = L.geoJSON(zum5_js);
-        var zum6 = L.geoJSON(zum6_js);
-        var zum7 = L.geoJSON(zum7_js);
-        var zupi1 = L.geoJSON(zupi1_js);
-        var zupi2 = L.geoJSON(zupi2_js);
-        var zus = L.geoJSON(zus_js);
+        //ZONEAMNETO
+
+        //////////////////////////////////////////////////////////
+        ///////////////Coordenadas do polígono////////////////////
+
+        // Variável para controlar se o popup está aberto ou não
+        var legendPopupOpen = false;
+
+        // HTML da legenda
+        var legendHTML = `
+            <div id="zoneLegend">
+                <h4>Legenda de Zoneamento</h4>
+                <ul>
+                    <li><strong>ZRBD 1</strong>: Zona Residencial de Baixa Densidade - Tipo 1</li>
+                    <li><strong>ZRMD 1</strong>: Zona Residencial de Média Densidade - Tipo 1</li>
+                    <li><strong>ZUD 1</strong>: Zona de Uso Diversificado - Tipo 1</li>
+                    <li><strong>ZUM 1</strong>: Zona de Uso Misto - Tipo 1</li>
+                    <li><strong>ZUPI 1</strong>: Zona de Uso Predominantemente Industrial - Tipo 1</li>
+                    <li><strong>ZUS</strong>: Zona de Uso Sanitário</li>
+                </ul>
+                <button onclick="hideLegend()">Fechar</button>
+            </div>
+        `;
+
+        // Função para exibir/ocultar a legenda
+        function toggleLegend() {
+            if (legendPopupOpen) {
+                map.closePopup();  // Fecha o popup se estiver aberto
+                legendPopupOpen = false;  // Atualiza o estado para "fechado"
+            } else {
+                var latLng = map.getCenter(); // Pega as coordenadas do centro do mapa
+                var offset = [0, -100]; // Define um deslocamento (no eixo Y) se necessário
+                var popupPosition = L.latLng(latLng.lat, latLng.lng + 0.1); // Ajuste da posição para a direita
+
+                L.popup({ closeOnClick: false })  // Desabilita o fechamento do popup ao clicar em qualquer parte do mapa
+                    .setLatLng(popupPosition) // Define a nova posição mais à direita
+                    .setContent(legendHTML) // Define o conteúdo da legenda
+                    .openOn(map); // Abre o popup no mapa
+
+                legendPopupOpen = true; // Atualiza o estado para "aberto"
+
+                event.stopPropagation()
+            }
+        }
+
+        // Função para ocultar a legenda
+        function hideLegend() {
+            map.closePopup();
+            legendPopupOpen = false; // Atualiza o estado para "fechado"
+        }
+
+        // Controle personalizado de botão para exibir/ocultar a legenda
+        L.Control.LegendButton = L.Control.extend({
+            onAdd: function() {
+                var button = L.DomUtil.create('button', 'legend-button');
+                button.innerHTML = 'Legenda';
+                button.onclick = toggleLegend; // Chama a função toggleLegend para alternar a visibilidade
+                return button;
+            }
+        });
+
+        // Adiciona o botão de legenda ao mapa
+        L.control.legendButton = function(opts) {
+            return new L.Control.LegendButton(opts);
+        }
+        L.control.legendButton({ position: 'topright' }).addTo(map);
+
+        // Função para adicionar popup a cada feature
+        function onEachFeature(feature, layer) {
+            if (feature.properties && feature.properties.INF) {
+                layer.bindPopup(feature.properties.INF);
+            }
+        }
+
+        // Adicionando a função onEachFeature a cada camada
+        var zar = L.geoJSON(zar_js, { onEachFeature: onEachFeature, color: '004b23', weight: 3, fillColor: '#004b23', 
+        fillOpacity: 1
+        });
+
+        var zde1 = L.geoJSON(zde1_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#ffc9b9', fillOpacity: 1 });
+        var zde2 = L.geoJSON(zde2_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#00a5cf', fillOpacity: 1 });
+        var zea = L.geoJSON(zea_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#fbb02d', fillOpacity: 1 });
+        var zeis = L.geoJSON(zeis_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#dd9787', fillOpacity: 1 });
+        var zem = L.geoJSON(zem_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#c8d5b9', fillOpacity: 1 });
+        var zpa1 = L.geoJSON(zpa1_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#208b3a', fillOpacity: 1 });
+        var zpa2 = L.geoJSON(zpa2_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#155d27', fillOpacity: 1 });
+        var zpa3 = L.geoJSON(zpa3_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#2dc653', fillOpacity: 1 });
+        var zpe = L.geoJSON(zpe_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#16db65', fillOpacity: 1 });
+        var zrbd1 = L.geoJSON(zrbd1_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#f5ffc6', fillOpacity: 1});
+        var zrbd2 = L.geoJSON(zrbd2_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#6eeb83', fillOpacity: 1 });
+        var zrbd3 = L.geoJSON(zrbd3_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#04e762', fillOpacity: 1});
+        var zrbd4 = L.geoJSON(zrbd4_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#65b891', fillOpacity: 1});
+        var zrbd5 = L.geoJSON(zrbd5_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#2ba84a', fillOpacity: 1});
+        var zrbd6 = L.geoJSON(zrbd6_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#04e762', fillOpacity: 1 });
+        var zrbd7 = L.geoJSON(zrbd7_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#9ef01a', fillOpacity: 1});
+        var zrmd1 = L.geoJSON(zrmd1_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#f4f0bb', fillOpacity: 1 });
+        var zrmd2 = L.geoJSON(zrmd2_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#f2c57c', fillOpacity: 1 });
+        var zrmd4 = L.geoJSON(zrmd4_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#ddae7e', fillOpacity: 1 });
+        var zrmd5 = L.geoJSON(zrmd5_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#d0b17a', fillOpacity: 1 });
+        var zud1 = L.geoJSON(zud1_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#edead0', fillOpacity: 1 });
+        var zud2 = L.geoJSON(zud2_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#b5ffe1', fillOpacity: 1 });
+        var zud4 = L.geoJSON(zud4_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#dcc9b6', fillOpacity: 1 });
+        var zud5 = L.geoJSON(zud5_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#daddd8', fillOpacity: 1 });
+        var zud6 = L.geoJSON(zud6_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#e2a0ff', fillOpacity: 1 });
+        var zud8 = L.geoJSON(zud8_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#efd0ca', fillOpacity: 1 });
+        var zud9 = L.geoJSON(zud9_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#c1bcac', fillOpacity: 1 });
+        var zud10 = L.geoJSON(zud10_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#d6a2ad', fillOpacity: 1 });
+        var zud11 = L.geoJSON(zud11_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#d1faff', fillOpacity: 1 });
+        var zum1 = L.geoJSON(zum1_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#edc4b3', fillOpacity: 1 });
+        var zum2 = L.geoJSON(zum2_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#e6b8a2', fillOpacity: 1 });
+        var zum3 = L.geoJSON(zum3_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#deab90', fillOpacity: 1 });
+        var zum4 = L.geoJSON(zum4_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#d69f7e', fillOpacity: 1 });
+        var zum5 = L.geoJSON(zum5_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#e6b8a2', fillOpacity: 1 });
+        var zum6 = L.geoJSON(zum6_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#b6ad90', fillOpacity: 1 });
+        var zum7 = L.geoJSON(zum7_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#a68a64', fillOpacity: 1 });
+        var zupi1 = L.geoJSON(zupi1_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#a4ac86', fillOpacity: 1 });
+        var zupi2 = L.geoJSON(zupi2_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#a9927d', fillOpacity: 1 });
+        var zus = L.geoJSON(zus_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#c3a995', fillOpacity: 1 });
 
     //Layer Control
     var baselayers = {
@@ -712,6 +791,209 @@
 
     ////////////////////////////////////////////////////////////
     ///////////////Leaflet Drawer Polígonos////////////////////
-
     
+    const drawControl = new L.Control.Draw({
+            draw: {
+                polyline: true,  // Desativa o desenho de linhas
+                polygon: true,    // Ativa o desenho de polígonos
+                circle: true,    // Desativa o desenho de círculos
+                rectangle: true,  // Ativa o desenho de retângulos
+                marker: true     // Desativa o marcador
+            }
+        });
+    map.addControl(drawControl);
+
+    // Evento para capturar quando uma forma é criada
+    map.on('draw:created', function (e) {
+        const layer = e.layer;
+        layer.addTo(map); // Adiciona o polígono desenhado ao mapa
+
+
+        // Evento para mostrar coordenadas e botão de remoção ao clicar no polígono
+        layer.on('click', function() {
+                // Calcula o centro do polígono
+                const center = layer.getBounds().getCenter();
+                const lat = center.lat.toFixed(5);
+                const lng = center.lng.toFixed(5);
+
+                // Cria o conteúdo do pop-up com coordenadas e botão de remoção
+                const popupContent = `
+                    <div>Coordenadas: ${lat}, ${lng}</div>
+                    <button class="remove-btn" onclick="removePolygon('${layer._leaflet_id}')">Remover Polígono</button>
+                `;
+
+                // Exibe o pop-up com o conteúdo
+                layer.bindPopup(popupContent).openPopup();
+            });
+        });
+        
+    // Função para remover o polígono com base no ID do Leaflet
+    function removePolygon(layerId) {
+        const layer = map._layers[layerId];
+        if (layer) {
+            map.removeLayer(layer);
+        }
+    }
+        
+
+    ////////////////////////////////////////////////////////////
+        ///////////////////download camadas////////////////////////
+
+        //função para download no de camadas formato geojson
+        // Função para download de camadas no formato GeoJSON
+function downloadGeoJSON(overlayName) {
+    let geoJSON;
+
+    // Mapeia o nome da camada para a variável correspondente
+    switch (overlayName) {
+        case 'limiteStn':
+            geoJSON = limiteStn?.toGeoJSON();
+            break;
+        case 'municipiosVizinhosStna':
+            geoJSON = municipiosVizinhosStna?.toGeoJSON();
+            break;
+        case 'massadaguaStn':
+            geoJSON = massadaguaStn?.toGeoJSON();
+            break;
+        case 'cursodaguaStn':
+            geoJSON = cursodaguaStn?.toGeoJSON();
+            break;
+        case 'nascentesdaguaStna':
+            geoJSON = nascentesdaguaStna?.toGeoJSON();
+            break;
+        case 'app50mNascentesStna':
+            geoJSON = app50mNascentesStna?.toGeoJSON();
+            break;
+        case 'app15mCursodaguaStna':
+            geoJSON = app15mCursodaguaStna?.toGeoJSON();
+            break;
+        case 'curvasdeNivelStna':
+            geoJSON = curvasdeNivelStna?.toGeoJSON();
+            break;
+        case 'InundacaoRiscoAlto':
+            geoJSON = InundacaoRiscoAlto?.toGeoJSON();
+            break;
+        case 'InundacaoRiscoModerado':
+            geoJSON = InundacaoRiscoModerado?.toGeoJSON();
+            break;
+        case 'InundacaoRiscoBaixo':
+            geoJSON = InundacaoRiscoBaixo?.toGeoJSON();
+            break;
+        case 'EscorregamentoRiscoMuitoAlto':
+            geoJSON = EscorregamentoRiscoMuitoAlto?.toGeoJSON();
+            break;
+        case 'EscorregamentoRiscoAlto':
+            geoJSON = EscorregamentoRiscoAlto?.toGeoJSON();
+            break;
+        case 'EscorregamentoRiscoMedio':
+            geoJSON = EscorregamentoRiscoMedio?.toGeoJSON();
+            break;
+        case 'EscorregamentoRiscoBaixo':
+            geoJSON = EscorregamentoRiscoBaixo?.toGeoJSON();
+            break;
+        case 'EscorregamentoRiscoNulo':
+            geoJSON = EscorregamentoRiscoNulo?.toGeoJSON();
+            break;
+
+        //SOLAPAMENTO
+        case 'SolapamentoRiscoMuitoAlto':
+            geoJSON = SolapamentoRiscoMuitoAlto?.toGeoJSON();
+            break;
+        case 'SolapamentoRiscoAlto':
+            geoJSON = SolapamentoRiscoAlto?.toGeoJSON();
+            break;
+        case 'SolapamentoRiscoMedio':
+            geoJSON = SolapamentoRiscoMedio?.toGeoJSON();
+            break;
+
+        //ZONEAMENTO
+        case 'polygonsData':
+            downloadZoneamentoZip(polygonsData); // Chama a função para download em zip
+            return;
+
+        default:
+            console.error('Camada não encontrada:', overlayName);
+            return;
+        
+    }
+
+        if (!geoJSON) {
+            console.error('Não foi possível encontrar a camada ou ela está vazia:', overlayName);
+            return;
+        }
+
+        // Cria o blob e prepara o download
+        const blob = new Blob([JSON.stringify(geoJSON)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = overlayName + ".geojson";
+        document.body.appendChild(a);
+        a.click();
+
+        // Revoga o URL de forma assíncrona
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }, 100);
+    }
+
+
+        //////////////////////////////////////////////////////////////////
+        //////////////////////Select Polygons////////////////////////////
+        var polygonsData = [zar, zde1, zde2, zea, zeis, zem, zpa1, zpa2, zpa3, 
+        zpe, zrbd1, zrbd2, zrbd3, zrbd4, zrbd5, zrbd6, zrbd7, 
+        zrmd1, zrmd2, zrmd4, zrmd5, zud1, zud2, zud4, zud5, zud6, zud8, zud9, zud10, zud11, 
+        zum1, zum2, zum3, zum4, zum5, zum6, zum7, zupi1, zupi2, zus]
+
+        // Variável para armazenar o polígono selecionado
+        var selectedPolygon = null;
+
+        // Função para resetar o estilo de todos os polígonos
+        function resetPolygonStyles() {
+            polygonsData.forEach(function(polygon) {
+                polygon.eachLayer(function(layer) {
+                    layer.setStyle({
+                        color: 'blue'  // Cor padrão para deselecionado
+                    });
+                });
+            });
+        }
+
+        // Função para adicionar evento de clique a cada polígono
+        function addClickEventToPolygon(polygon) {
+            polygon.on('click', function(e) {
+                if (selectedPolygon === e.layer) {
+                    // Se o polígono já está selecionado, deselecione-o
+                    resetPolygonStyles();
+                    selectedPolygon = null;  // Limpa a seleção
+                } else {
+                    // Se havia outro polígono selecionado, reseta seu estilo
+                    if (selectedPolygon) {
+                        resetPolygonStyles();
+                    }
+
+                    // Seleciona o polígono atual
+                    polygon.eachLayer(function(layer) {
+                        layer.setStyle({
+                            color: 'red'  // Cor para polígono selecionado
+                        });
+                    });
+                    selectedPolygon = e.layer;  // Atualiza a seleção
+                }
+            });
+        }
+
+        // Adiciona eventos de clique para cada polígono na lista
+        polygonsData.forEach(function(polygon) {
+            addClickEventToPolygon(polygon);
+        });
+
+
+        //modifica configurações padronizadas
+        var options = {
+            exclusiveGroups: ["Base Maps"], //grupo exclusivo, ou seja, apenas um pode ser selecionado por vez.
+            groupCheckboxes: true, //seleciona todas as camadas do grupo.
+        };
+
 </script>

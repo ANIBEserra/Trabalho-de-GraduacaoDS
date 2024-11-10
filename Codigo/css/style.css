@@ -292,3 +292,61 @@ h1 {
 .leaflet-control-scale-label {
     color: #ffffff;
 }
+
+.remove-btn {
+    background-color: blue;
+    color: white;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 4px; /* Adiciona bordas arredondadas */
+}
+
+/* Estilo para o botão de legenda */
+.legend-button {
+    background: #fff;
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo para o popup de legenda */
+#zoneLegend {
+    padding: 10px;
+    background: white;
+    max-width: 300px;
+    font-size: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#zoneLegend h4 {
+    margin-top: 10;
+    font-size: 10px;
+}
+
+#zoneLegend ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#zoneLegend ul li {
+    margin: 5px 0;
+    font-size: 10px;
+}
+
+#zoneLegend button {
+    display: block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background: #004b23;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
