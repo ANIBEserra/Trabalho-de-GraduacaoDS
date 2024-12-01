@@ -1,14 +1,13 @@
-
 #mapid{
-    height: 500px;
-    width: auto;
+    position: relative;
+    margin-top:0%;
+    bottom: 0%;
+    height: 570px;
+    min-width: 100%;
     margin: auto;
-    margin-left: 10px;
-    margin-right: 50px;
     z-index: 0; /* Z-index menor para garantir que fique atrás */
     border-radius: 0;
     cursor: pointer;
-    margin-top: 10px;
 }
 
 /* Se necessário, para garantir que não haja margens ou preenchimentos adicionais: */
@@ -16,7 +15,7 @@ body, html {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
      /* Para garantir que não haja barras de rolagem */
 }
 
@@ -136,7 +135,7 @@ h1 {
 .leaflet-control-geocoder.expanded {
     left: 50%;
     transform: translateX(-50%);
-    width: 300px; /* Largura expandida */
+    width: 100%; /* Largura expandida */
 }
 
 /*grouped layer control*/
@@ -153,7 +152,7 @@ h1 {
   
 .leaflet-control-layers-scrollbar {
     overflow-y: auto;
-    max-height: 400px;
+    max-height: 100%;
     padding-right: 10px;
 }
 
@@ -205,11 +204,11 @@ h1 {
 
 /*Botão de fullscrren*/
 .fullscreen-button i {
-    position: fixed;
-    top: 210px; /* Ajuste conforme necessário */
-    right: 10px; /* Posiciona o ícone à direita */
+    position: relative;
+    /*top: 210px; /* Ajuste conforme necessário */
+    /*right: 10px; /* Posiciona o ícone à direita */
     cursor: pointer;
-    z-index: 9999; /* Valor alto para garantir que o ícone se sobreponha a outros elementos */
+    z-index: 99; /* Valor alto para garantir que o ícone se sobreponha a outros elementos */
     color: #ffffff;
     background-color: rgb(2, 33, 79);
     border: 1px solid rgb(2, 33, 79);
@@ -222,11 +221,21 @@ h1 {
     background-color: rgb(1, 19, 47); 
 }
 
+.buttons-menu-lateral{
+    position: absolute;
+    left: 50px;
+    top: 18px;
+    z-index: 1000;
+  
+    display: flex;
+    gap: 2px;  
+}
+
 /*print button*/
 .print-map i {
-    position: fixed;
-    top: 260px; /* Distância do topo da janela */
-    right: 10px; /* Distância da esquerda da janela */
+    position: relative;
+    /*top: 260px;  Distância do topo da janela */
+    /*right: 10px; /* Distância da esquerda da janela */
     z-index: 9999; /* Valor alto para garantir que sobreponha outros elementos */
     background-color: rgb(2, 33, 79); /* Cor de fundo do botão */
     border: 1px solid rgb(2, 33, 79);
@@ -241,9 +250,9 @@ h1 {
 }
 
 #centerMapButton {
-    position: fixed;
-    top: 310px; /* Distância do topo da janela */
-    right: 10px; /* Distância da esquerda da janela */
+    position: relative;
+    /*top: 310px; /* Distância do topo da janela */
+    /*right: 10px; /* Distância da esquerda da janela */
     z-index: 9999; /* Valor alto para garantir que sobreponha outros elementos */
     background-color: rgb(2, 33, 79); /* Cor de fundo do botão */
     border: 1px solid rgb(2, 33, 79);
@@ -260,12 +269,12 @@ h1 {
 
 /*Coordenadas Longitude e latitude mouse*/
 .coordinate {
-    position:absolute;
-    margin-left: 50px;
-    border: 2px solid #000;
+    position: absolute;
+    margin-left: 0px;
+    /*border: 2px solid #000;*/
     padding: 3px 10px; /* Preenchimento superior e inferior de 3px e preenchimento esquerdo e direito de 10px */
     background-color: rgba(255, 255, 255, 0.8); /* Branco opaco com 80% de opacidade */
-    bottom: 6%;
+    bottom: 0%;
     border-radius: 0;
     text-align: end;
     font-size: 12px;
@@ -294,7 +303,7 @@ h1 {
 }
 
 .remove-btn {
-    background-color: blue;
+    background-color: #004b23;
     color: white;
     padding: 5px;
     border: none;
