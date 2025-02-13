@@ -46,20 +46,12 @@
 
     <!-- script groupedbaselayer-->
     <script src="../scripts/leaflet.groupedlayercontrol.js"></script>
-    <style>
-    </style>
 
 </head>
 
 <body>
-    <!--Cabeçalho-->
-    <div class="cabecalho">
-        <img src="../img/brasao_santana.png" alt="Brasão Santana de Parnaíba">
-    </div> 
 
-        <div class="custom-search-control"></div>
-    </section> 
-
+    <section>
     <!--Cabeçalho-->
     <div class="cabecalho">
         <img src="../img/brasao_santana.png" alt="Brasão Santana de Parnaíba">
@@ -68,7 +60,6 @@
     <div class="faixa-superior"></div>
     <h1> Portal Geo Parnaíba </h1>
     <div class="faixa-inferior"></div>
-
 
     <!--botão html com camadas para download-->
     <div class="dropdown">
@@ -121,12 +112,10 @@
             <a href="#" onclick="downloadGeoJSON('polygonsData')">Download GeoJSON Zoneamento </a>
         </div>
     </div>
+    <div class="container-page"></div>
 
-    <div class="container-page">
-
-        <nav>
-            <ul>
-                <section class="buttons-menu-lateral">  
+        <div id="mapid">
+            <section class="buttons-menu-lateral">  
                 <!-- Sessão de criação dos botões que filtrarão mapa -->
 
                         <div class="fullscreen-button" onclick="fullScreenview()" title="Tela cheia">
@@ -140,18 +129,17 @@
                         <div class="centermap" title="Centralizar mapa">
                             <i class="bi bi-align-center" id="centerMapButton"></i>
                         </div>
-                    </div>
-                </section>  
-                <div id="mapid"></div>
-            </ul>
-        </nav>
+                   
+            </section>  
 
-    </div>
+            <!-- jQuery Para coordenadas ao passar mouse -->
+            <div class="coordinate"></div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- coordenadas sob o mouse -->
 
-    <!-- jQuery Para coordenadas ao passar mouse -->
-    <div class="coordinate"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- coordenadas sob o mouse -->
+        </div>
 
+    </section>
+    
     <!-- scripts das Camadas-->
     <script src="../dataqgiz/Bairros.js"></script>
     <script src="../dataqgiz/Energia.js"></script>
@@ -221,9 +209,22 @@
     <script src="../dataqgiz/Zoneamento/ZUPI-1.js"></script>
     <script src="../dataqgiz/Zoneamento/ZUPI-2.js"></script>
     <script src="../dataqgiz/Zoneamento/ZUS.js"></script>
+    <script src="../dataqgiz/Densidade demografica2 - Copia.js"></script>
+
+    <script src="../dataqgiz/IBGE/ATÉ 5 - Copia.js"></script>
+    <script src="../dataqgiz/IBGE/5 - 10 - Copia.js"></script>
+    <script src="../dataqgiz/IBGE/10 - 20 - Copia.js"></script>
+    -- <script src="../dataqgiz/IBGE/20 - 50 - Copia.js"></script>
+    <script src="../dataqgiz/IBGE/50 - 100 - Copia.js"></script>
+    <script src="../dataqgiz/IBGE/50 - 100 - Copia.js"></script>
+    <script src="../dataqgiz/IBGE/100 - 150 - Copia.js"></script>
+    <script src="../dataqgiz/IBGE/150 - 200 - Copia.js"></script>
+    <script src="../dataqgiz/IBGE/200 - 250 - Copia.js"></script>
+    <script src="../dataqgiz/IBGE/250 - 300 - Copia.js"></script>
+    <script src="../dataqgiz/IBGE/ACIMA DE 350 - Copia.js"></script>
+    <script src="../dataqgiz/IBGE/300 - 350 - Copia.js"></script>
 
     <script>
-
         // Carregue o arquivo GeoJSON
         var geojson = {
         "type": "FeatureCollection",
@@ -276,7 +277,7 @@
     ///////////////////////Barra de Pesquisa///////////////////////// 
 
     var geocoder = L.Control.geocoder({
-            position: 'topright',
+            position: 'topleft',
 
         }).addTo(map);
 
@@ -485,7 +486,7 @@
         `;
 
         // Função para exibir/ocultar a legenda
-        function toggleLegend() {
+        /*function toggleLegend() {
             if (legendPopupOpen) {
                 map.closePopup();  // Fecha o popup se estiver aberto
                 legendPopupOpen = false;  // Atualiza o estado para "fechado"
@@ -525,7 +526,7 @@
         L.control.legendButton = function(opts) {
             return new L.Control.LegendButton(opts);
         }
-        L.control.legendButton({ position: 'topright' }).addTo(map);
+        L.control.legendButton({ position: 'topright' }).addTo(map);*/
 
         // Função para adicionar popup a cada feature
         function onEachFeature(feature, layer) {
@@ -535,7 +536,7 @@
         }
 
         // Adicionando a função onEachFeature a cada camada
-        var zar = L.geoJSON(zar_js, { onEachFeature: onEachFeature, color: '004b23', weight: 3, fillColor: '#004b23', 
+        var zar = L.geoJSON(zar_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#004b23', 
         fillOpacity: 1
         });
 
@@ -559,7 +560,7 @@
         var zrmd2 = L.geoJSON(zrmd2_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#f2c57c', fillOpacity: 1 });
         var zrmd4 = L.geoJSON(zrmd4_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#ddae7e', fillOpacity: 1 });
         var zrmd5 = L.geoJSON(zrmd5_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#d0b17a', fillOpacity: 1 });
-        var zud1 = L.geoJSON(zud1_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#edead0', fillOpacity: 1 });
+        //var zud1 = L.geoJSON(zud1_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#edead0', fillOpacity: 1 });
         var zud2 = L.geoJSON(zud2_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#b5ffe1', fillOpacity: 1 });
         var zud4 = L.geoJSON(zud4_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#dcc9b6', fillOpacity: 1 });
         var zud5 = L.geoJSON(zud5_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#daddd8', fillOpacity: 1 });
@@ -579,6 +580,29 @@
         var zupi2 = L.geoJSON(zupi2_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#a9927d', fillOpacity: 1 });
         var zus = L.geoJSON(zus_js, { onEachFeature: onEachFeature, color: '#141204', weight: 3, fillColor: '#c3a995', fillOpacity: 1 });
 
+        var bairros = L.geoJSON(bairros_js, {color:'orange'})
+        var energia = L.geoJSON(energia_js, {color:'red'})
+        //var densidadesdemografica = L.geoJSON(densidemo_js)
+
+        var densidade2 = L.geoJSON(dsendidemo_js)
+
+        var ate5 = L.geoJSON(ate5_js, {color: '#4f518c', weight: 1, fillColor: '#e0aaff', fillOpacity: 1, },)
+        var de5a10 = L.geoJSON(de5a10_js, {color: '#4f518c', weight: 1, fillColor: '#9d4edd', fillOpacity: 1, },)
+        var de10a20 = L.geoJSON(de10a20_js, {color: '#4f518c', weight: 1, fillColor: '#944bbb', fillOpacity: 1, },)
+        var de20a50 = L.geoJSON(de20a50_js,{color: '#4f518c', weight: 1, fillColor: '#7b2cbf', fillOpacity: 1, },)
+        var de50a100 = L.geoJSON(de50a100_js, {color: '#4f518c', weight: 1, fillColor: '#5a189a', fillOpacity: 1, },)
+        var de100a150 = L.geoJSON(de100a150_js, {color: '#4f518c', weight: 1, fillColor: '#6f2dbd', fillOpacity: 1, },)
+        var de150a200 = L.geoJSON(de150a200_js, {color: '#4f518c', weight: 1, fillColor: '#e0aaff', fillOpacity: 1, },)
+        var de200a250 = L.geoJSON(de200a250_js, {color: '#4f518c', weight: 1, fillColor: '#3d0066', fillOpacity: 1, },)
+        var de250a300 = L.geoJSON(de250a300_js, {color: '#4f518c', weight: 1, fillColor: '#240046', fillOpacity: 1, },)
+        var de300a350 = L.geoJSON(de300a350_js, {color: '#4f518c', weight: 1, fillColor: '#3c096c', fillOpacity: 1, },)
+        var acimade350 = L.geoJSON(acimade350_js, {color: '#4f518c', weight: 1, fillColor: '#2c0735', fillOpacity: 1, },)
+
+        //additional baselayers
+        var additional_baselayers = {
+            "Thunderforest_OpenCycleMap": Thunderforest_OpenCycleMap,
+            "Stadia_AlidadeSmoothDark": Stadia_AlidadeSmoothDark,
+        }
     //Layer Control
     var baselayers = {
             "Base Maps": {
@@ -587,9 +611,13 @@
                 "Satellite Streets": googleHybrid,
                 "Satellite": googleSat,
                 "OSM": osm,
+                "Dark": Stadia_AlidadeSmoothDark,
             },
             "Camadas": {
                 "Limite Municipal": limiteStn,
+                "Bairros": bairros,
+                "Energia": energia,
+                //"Densidade Demografica": densidadesdemografica,
                 "Municípios vizinhos": municipiosVizinhosStna,
                 "Massa Dágua Stna": massadaguaStn,
                 "Curso Dágua Stna": cursodaguaStn,
@@ -597,7 +625,22 @@
                 "App 50m Nascentes Stna": app50mNascentesStna,
                 "App 15m Curso Dagua Stna": app15mCursodaguaStna,
                 "Curvas de Nível Stna": curvasdeNivelStna,
+                //"Densidade demografica 2": densidade2,
+            },            
+            "Densidade Demográfica": {
+                "Até 5": ate5,
+                "De 5 a 10": de5a10,
+                "De 10 a 20": de10a20,
+                "De 20 a 50": de20a50,
+                "De 50 a 100": de50a100,
+                "De 100 a 150": de100a150,
+                "De 150 a 200": de150a200,
+                "De 200 a 250": de200a250,
+                "De 250 a 300": de250a300,
+                "De 300 a 350": de300a350,
+                "Acima de 350": acimade350,
             },
+
             "Risco de Inundação": {
                 "Inundação Risco Baixo": InundacaoRiscoBaixo,
                 "Inundação Risco Moderado": InundacaoRiscoModerado,
@@ -637,7 +680,7 @@
                 "ZRMD2": zrmd2,
                 "ZRMD4": zrmd4,
                 "ZRMD5": zrmd5,
-                "ZUD1": zud1,
+                //"ZUD1": zud1,
                 "ZUD2": zud2,
                 "ZUD4": zud4,
                 "ZUD5": zud5,
@@ -655,8 +698,9 @@
                 "ZUM7": zum7,
                 "ZUPI1": zupi1,
                 "ZUPI2": zupi2,
-                "ZUS": zus
-            }
+                "ZUS": zus,
+            },
+
     }
 
     //////////////////////////////////////////////////////////////////
@@ -995,5 +1039,5 @@ function downloadGeoJSON(overlayName) {
             exclusiveGroups: ["Base Maps"], //grupo exclusivo, ou seja, apenas um pode ser selecionado por vez.
             groupCheckboxes: true, //seleciona todas as camadas do grupo.
         };
-
+    
 </script>
